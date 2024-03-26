@@ -24,7 +24,7 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
 
  */
 const $ = new Env('葫芦娃');
-const notify = $.isNode() ? require('./sendNotify') : '';
+//  const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var isClearShopDir = $.getdata('imaotai__config__clearshopdir') || false // 是否清理店铺字典
 var province = $.getdata('imaotai__config__province') || '' // 省份
@@ -36,16 +36,16 @@ var shopid = $.getdata('imaotai__config__shopid') || '' // 商铺id
 var imaotaiParams = JSON.parse($.getdata('imaotai_params') || '{}') // 抓包参数
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
-if ($.isNode()) {
-    MT_PROVINCE = process.env.MT_PROVINCE ? process.env.MT_PROVINCE : MT_PROVINCE;
-    MT_CITY = process.env.MT_CITY ? process.env.MT_CITY : MT_CITY;
-    MT_DISTRICT = process.env.MT_DISTRICT ? process.env.MT_DISTRICT : MT_DISTRICT;
-    MT_ITEM_BLACK = process.env.MT_ITEM_BLACK ? process.env.MT_ITEM_BLACK : MT_ITEM_BLACK;
-    MT_TOKENS = process.env.MT_TOKENS ? process.env.MT_TOKENS : MT_TOKENS;
-    MT_VERSION = process.env.MT_VERSION ? process.env.MT_VERSION : MT_VERSION;
-    MT_USERAGENT = process.env.MT_USERAGENT ? process.env.MT_USERAGENT : MT_USERAGENT;
-    MT_R = process.env.MT_R ? process.env.MT_R : MT_R;
-}
+// if ($.isNode()) {
+//     MT_PROVINCE = process.env.MT_PROVINCE ? process.env.MT_PROVINCE : MT_PROVINCE;
+//     MT_CITY = process.env.MT_CITY ? process.env.MT_CITY : MT_CITY;
+//     MT_DISTRICT = process.env.MT_DISTRICT ? process.env.MT_DISTRICT : MT_DISTRICT;
+//     MT_ITEM_BLACK = process.env.MT_ITEM_BLACK ? process.env.MT_ITEM_BLACK : MT_ITEM_BLACK;
+//     MT_TOKENS = process.env.MT_TOKENS ? process.env.MT_TOKENS : MT_TOKENS;
+//     MT_VERSION = process.env.MT_VERSION ? process.env.MT_VERSION : MT_VERSION;
+//     MT_USERAGENT = process.env.MT_USERAGENT ? process.env.MT_USERAGENT : MT_USERAGENT;
+//     MT_R = process.env.MT_R ? process.env.MT_R : MT_R;
+// }
 
 const SPLIT = "\n"; // 分割符（可自定义）
 
