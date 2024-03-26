@@ -98,7 +98,7 @@ let sendMessage = [];
                     setdata($request.headers,accessToken,userAgent,`GLYP_COOKIE`,'贵旅优品')
                     break
                 case KGLG_APPID:
-                    setdata($request.headers,accessToken,userAgent,`KGLG_COOKIE`,'空港乐购')
+                    setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
                     break
                 case HLQG_APPID:
                     setdata($request.headers,accessToken,userAgent,`HLQG_COOKIE`,'航旅黔购')
