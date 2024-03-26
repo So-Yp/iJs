@@ -23,7 +23,7 @@ hostname = gw.huiqunchina.com
 https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-body https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
  */
-const $ = new Env('葫芦娃');
+// const $ = new Env('葫芦娃');
 // const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var isClearShopDir = $.getdata('imaotai__config__clearshopdir') || false // 是否清理店铺字典
