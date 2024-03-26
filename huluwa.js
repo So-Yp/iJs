@@ -99,7 +99,7 @@ let sendMessage = [];
     })
     .finally(() => {
         const notify = async (msg) => $.msg($.name, '', msg)
-        await notify(Message)
+        notify(Message)
         $.done();
  });
 
