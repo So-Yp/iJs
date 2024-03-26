@@ -20,9 +20,11 @@
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
-https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
+https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-body https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
  */
+const $ = new Env('葫芦娃');
+// const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var isClearShopDir = $.getdata('imaotai__config__clearshopdir') || false // 是否清理店铺字典
 var province = $.getdata('imaotai__config__province') || '' // 省份
@@ -34,13 +36,7 @@ var shopid = $.getdata('imaotai__config__shopid') || '' // 商铺id
 var imaotaiParams = JSON.parse($.getdata('imaotai_params') || '{}') // 抓包参数
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
-if (JSON.stringify(imaotaiParams) === '{}') throw `请先开启代理工具对必要参数进行抓包`
-if (!imaotaiParams.userId || !imaotaiParams.headers['MT-Token']) throw '请先开启代理工具进行抓包相关操作!'
-if (!province) throw '请在BoxJs中配置省份'
-if (!city) throw '请在BoxJs中配置城市'
-if (!itemCode) throw '请在BoxJs中配置预约项'
-if (!address) throw '请在BoxJs中配置详细地址'
-if (!location) await queryAddress()
+
 const SPLIT = "\n"; // 分割符（可自定义）
 
 const axios = require('axios');
@@ -269,24 +265,12 @@ async function autoSubmit(appId, token) {
 }
 
 async function main() {
-    // 抓包
-    if ($request && typeof $request === 'object') {
-        if ($request.method === 'OPTIONS') return false
-        console.log(JSON.stringify($request.headers))
-        var accessToken = $request.headers['X-access-token'];
-        var userId = JSON.parse($response.body).data.userId
-        $.setdata(
-            JSON.stringify({
-                headers: $request.headers,
-                accessToken
-            }),
-            'huluwa_params'
-        )
-        Message = `抓取数据成功🎉\n Token:${accessToken}`
-        return false
-    }
-
-
+    if (JSON.stringify(imaotaiParams) === '{}') throw `请先开启代理工具对必要参数进行抓包`
+    if (!imaotaiParams.userId || !imaotaiParams.headers['MT-Token']) throw '请先开启代理工具进行抓包相关操作!'
+    if (!province) throw '请在BoxJs中配置省份'
+    if (!city) throw '请在BoxJs中配置城市'
+    if (!itemCode) throw '请在BoxJs中配置预约项'
+    if (!address) throw '请在BoxJs中配置详细地址'
     const XLTH_COOKIE_ARR = process.env.XLTH_COOKIE; // 新联惠购
     const GLYP_COOKIE_ARR = process.env.GLYP_COOKIE; // 贵旅优品
     const KGLG_COOKIE_ARR = process.env.KGLG_COOKIE; // 空港乐购
@@ -402,5 +386,36 @@ async function main() {
 
     //await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知 By：一泽');
 }
+!(async () => {
+    if (isGetCookie = typeof $request !== `undefined`) {
+        // 抓包
+    if ($request && typeof $request === 'object') {
+        if ($request.method === 'OPTIONS') return false
+        console.log(JSON.stringify($request.headers))
+        var accessToken = $request.headers['X-access-token'];
+        var userId = JSON.parse($response.body).data.userId
+        $.setdata(
+            JSON.stringify({
+                headers: $request.headers,
+                accessToken
+            }),
+            'huluwa_params'
+        )
+        console.log(`抓取数据成功🎉\n Token:${accessToken}`);
+        Message = `抓取数据成功🎉\n Token:${accessToken}`
+        return false
+        }
+        $.done();
+    }
+    main();
+})()
+.catch((e) => {
+        $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
+    })
+    .finally(() => {
+        $.done();
+    });
 
-main();
+
+
+
