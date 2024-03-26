@@ -78,38 +78,40 @@ let sendMessage = [];
         var accessToken = $request.headers['X-access-token'];
         var userAgent = $request.headers['User-Agent'];
         var referer = $request.headers['Referer'];
-        var regex = /\/wx(.*?)\//; // 使用正则表达式匹配 "/wx" 和 "/" 之间的内容
-        var match = referer.match(regex); // 使用match()方法获取匹配的结果
-        var appid = match[1]; // 获取匹配结果中的第二个捕获组
-        switch(appid) {
-            case XLTH_APPID:
-                setdata($request.headers,accessToken,userAgent,XLTH_COOKIE,'新联惠购')
-                break
-            case GLYP_APPID:
-                setdata($request.headers,accessToken,userAgent,GLYP_COOKIE,'贵旅优品')
-                break
-            case KGLG_APPID:
-                setdata($request.headers,accessToken,userAgent,KGLG_COOKIE,'空港乐购')
-                break
-            case HLQG_APPID:
-                setdata($request.headers,accessToken,userAgent,HLQG_COOKIE,'航旅黔购')
-                break
-            case ZHCS_APPID:
-                setdata($request.headers,accessToken,userAgent,ZHCS_COOKIE,'遵航出山')
-                break
-            case GYQP_APPID:
-                setdata($request.headers,accessToken,userAgent,GYQP_COOKIE,'贵盐黔品')
-                break
-            case LLSC_APPID:
-                setdata($request.headers,accessToken,userAgent,LLSC_COOKIE,'乐旅商城')
-                break
-            default:
-                setdata($request.headers,accessToken,userAgent,YLQX_COOKIE,'驿路黔寻')
-                break;
-          }
-        return false
-        }
-        $.done();
+        if(referer){
+            var regex = /\/wx(.*?)\//; // 使用正则表达式匹配 "/wx" 和 "/" 之间的内容
+            var match = referer.match(regex); // 使用match()方法获取匹配的结果
+            var appid = match[1]; // 获取匹配结果中的第二个捕获组
+            switch(appid) {
+                case XLTH_APPID:
+                    setdata($request.headers,accessToken,userAgent,XLTH_COOKIE,'新联惠购')
+                    break
+                case GLYP_APPID:
+                    setdata($request.headers,accessToken,userAgent,GLYP_COOKIE,'贵旅优品')
+                    break
+                case KGLG_APPID:
+                    setdata($request.headers,accessToken,userAgent,KGLG_COOKIE,'空港乐购')
+                    break
+                case HLQG_APPID:
+                    setdata($request.headers,accessToken,userAgent,HLQG_COOKIE,'航旅黔购')
+                    break
+                case ZHCS_APPID:
+                    setdata($request.headers,accessToken,userAgent,ZHCS_COOKIE,'遵航出山')
+                    break
+                case GYQP_APPID:
+                    setdata($request.headers,accessToken,userAgent,GYQP_COOKIE,'贵盐黔品')
+                    break
+                case LLSC_APPID:
+                    setdata($request.headers,accessToken,userAgent,LLSC_COOKIE,'乐旅商城')
+                    break
+                default:
+                    setdata($request.headers,accessToken,userAgent,YLQX_COOKIE,'驿路黔寻')
+                    break;
+              }
+            return false
+            }
+            $.done();
+        }  
     }
     main();
 })()
