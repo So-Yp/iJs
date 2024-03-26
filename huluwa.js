@@ -20,7 +20,7 @@
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
-https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-body https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
+https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
  */
 // 配置项
