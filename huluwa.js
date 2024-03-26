@@ -76,11 +76,20 @@ let sendMessage = [];
         var accessToken = $request.headers['X-access-token'];
         var userAgent = $request.headers['User-Agent'];
         var referer = $request.headers['Referer'];
-        console.log(`${referer}`)
-        if(referer){
-            var regex = /\/wx(.*?)\//; // 使用正则表达式匹配 "/wx" 和 "/" 之间的内容
-            var match = referer.match(regex); // 使用match()方法获取匹配的结果
-            var appid = match[1]; // 获取匹配结果中的第二个捕获组
+        if(userAgent){
+            var match = userAgent.match(/miniProgram\/([^ ]+)/); // "miniProgram/" 后面的非空格字符 使用 match() 方法获取匹配的结果
+            if (match) {
+              var appid = match[1]; // 获取匹配结果中的第一个捕获组
+              console.log(appid);
+            } else {
+                console.log(`${referer}`)
+                var regex = /\/wx(.*?)\//; // 使用正则表达式匹配 "/wx" 和 "/" 之间的内容
+                var match = referer.match(regex); // 使用match()方法获取匹配的结果
+                if (match) {
+                    var appid = match[1]; // 获取匹配结果中的第二个捕获组
+                }
+            }
+        }
             switch(appid) {
                 case XLTH_APPID:
                     setdata($request.headers,accessToken,userAgent,XLTH_COOKIE,'新联惠购')
@@ -108,7 +117,6 @@ let sendMessage = [];
                     break;
               }
             return false
-            }
             $.done();
         }  
 
