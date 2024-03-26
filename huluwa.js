@@ -132,14 +132,14 @@ let sendMessage = [];
         $.done();
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
-    
+    console.log(`${cookie}🎉\n${name}🎉\n`);
     $.setdata(
         JSON.stringify({
             headers: headers,
             accessToken,
             userAgent,
         }),
-        `${cookie}`
+        cookie
     )
     console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
     Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
