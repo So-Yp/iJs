@@ -70,14 +70,13 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 let sendMessage = [];
 
 !(async () => {
-    if (isGetCookie = typeof $request !== `undefined`) {
-        // 抓包
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
         console.log(JSON.stringify($request.headers))
         var accessToken = $request.headers['X-access-token'];
         var userAgent = $request.headers['User-Agent'];
         var referer = $request.headers['Referer'];
+        console.log(`${referer}`)
         if(referer){
             var regex = /\/wx(.*?)\//; // 使用正则表达式匹配 "/wx" 和 "/" 之间的内容
             var match = referer.match(regex); // 使用match()方法获取匹配的结果
@@ -112,7 +111,7 @@ let sendMessage = [];
             }
             $.done();
         }  
-    }
+
     main();
 })()
 .catch((e) => {
