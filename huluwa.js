@@ -76,16 +76,17 @@ let sendMessage = [];
         if ($request.method === 'OPTIONS') return false
         console.log(JSON.stringify($request.headers))
         var accessToken = $request.headers['X-access-token'];
-        var userId = JSON.parse($response.body).data.userId
+        var userAgent = $request.headers['User-Agent'];
         $.setdata(
             JSON.stringify({
                 headers: $request.headers,
-                accessToken
+                accessToken,
+                userAgent,
             }),
             'huluwa_params'
         )
-        console.log(`抓取数据成功🎉\n Token:${accessToken}`);
-        Message = `抓取数据成功🎉\n Token:${accessToken}`
+        console.log(`抓取数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
+        Message = `抓取数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
         return false
         }
         $.done();
@@ -94,8 +95,11 @@ let sendMessage = [];
 })()
 .catch((e) => {
         $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
+        Message += `❌ 失败! 原因: ${e}!`
     })
     .finally(() => {
+        const notify = async (msg) => $.msg($.name, '', msg)
+        await notify(Message)
         $.done();
  });
 
