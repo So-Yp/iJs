@@ -24,7 +24,7 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
 
  */
 const $ = new Env('葫芦娃');
-// const notify = $.isNode() ? require('./sendNotify') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var isClearShopDir = $.getdata('imaotai__config__clearshopdir') || false // 是否清理店铺字典
 var province = $.getdata('imaotai__config__province') || '' // 省份
@@ -36,12 +36,22 @@ var shopid = $.getdata('imaotai__config__shopid') || '' // 商铺id
 var imaotaiParams = JSON.parse($.getdata('imaotai_params') || '{}') // 抓包参数
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
+if ($.isNode()) {
+    MT_PROVINCE = process.env.MT_PROVINCE ? process.env.MT_PROVINCE : MT_PROVINCE;
+    MT_CITY = process.env.MT_CITY ? process.env.MT_CITY : MT_CITY;
+    MT_DISTRICT = process.env.MT_DISTRICT ? process.env.MT_DISTRICT : MT_DISTRICT;
+    MT_ITEM_BLACK = process.env.MT_ITEM_BLACK ? process.env.MT_ITEM_BLACK : MT_ITEM_BLACK;
+    MT_TOKENS = process.env.MT_TOKENS ? process.env.MT_TOKENS : MT_TOKENS;
+    MT_VERSION = process.env.MT_VERSION ? process.env.MT_VERSION : MT_VERSION;
+    MT_USERAGENT = process.env.MT_USERAGENT ? process.env.MT_USERAGENT : MT_USERAGENT;
+    MT_R = process.env.MT_R ? process.env.MT_R : MT_R;
+}
 
 const SPLIT = "\n"; // 分割符（可自定义）
 
-const axios = require('axios');
-const crypto = require('crypto');
-const moment = require('moment');
+// const axios = require('axios');
+// const crypto = require('crypto');
+// const moment = require('moment');
 // const notify = require('./sendNotify');
 
 const XLTH_APPID = 'wxded2e7e6d60ac09d'; // 新联惠购
@@ -58,6 +68,36 @@ const AK = '00670fb03584fbf44dd6b136e534f495';
 const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 
 let sendMessage = [];
+
+!(async () => {
+    if (isGetCookie = typeof $request !== `undefined`) {
+        // 抓包
+    if ($request && typeof $request === 'object') {
+        if ($request.method === 'OPTIONS') return false
+        console.log(JSON.stringify($request.headers))
+        var accessToken = $request.headers['X-access-token'];
+        var userId = JSON.parse($response.body).data.userId
+        $.setdata(
+            JSON.stringify({
+                headers: $request.headers,
+                accessToken
+            }),
+            'huluwa_params'
+        )
+        console.log(`抓取数据成功🎉\n Token:${accessToken}`);
+        Message = `抓取数据成功🎉\n Token:${accessToken}`
+        return false
+        }
+        $.done();
+    }
+    main();
+})()
+.catch((e) => {
+        $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
+    })
+    .finally(() => {
+        $.done();
+ });
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
@@ -386,35 +426,7 @@ async function main() {
 
     //await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知 By：一泽');
 }
-!(async () => {
-    if (isGetCookie = typeof $request !== `undefined`) {
-        // 抓包
-    if ($request && typeof $request === 'object') {
-        if ($request.method === 'OPTIONS') return false
-        console.log(JSON.stringify($request.headers))
-        var accessToken = $request.headers['X-access-token'];
-        var userId = JSON.parse($response.body).data.userId
-        $.setdata(
-            JSON.stringify({
-                headers: $request.headers,
-                accessToken
-            }),
-            'huluwa_params'
-        )
-        console.log(`抓取数据成功🎉\n Token:${accessToken}`);
-        Message = `抓取数据成功🎉\n Token:${accessToken}`
-        return false
-        }
-        $.done();
-    }
-    main();
-})()
-.catch((e) => {
-        $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
-    })
-    .finally(() => {
-        $.done();
-    });
+
 
 // prettier-ignore
 function Env(t, e) {
