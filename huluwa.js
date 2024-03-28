@@ -158,6 +158,11 @@ let sendMessage = [];
     {
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
+        var currentDate = new Date()
+        const t_=currentDate.getTime()
+        console.log(JSON.stringify(t_))
+        $.setdata(t_, 'timeSpan');
+        console.log(JSON.stringify($.getdata('timeSpan')))
     }
 }
 function delay(time) {
