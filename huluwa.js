@@ -142,15 +142,16 @@ let sendMessage = [];
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
-    if (accessToken.startsWith("eyJhbGciOiJIUzI1NiJ9")) {
-        $.setdata(
-            JSON.stringify({
-                accessToken,
-                userAgent,
-            }),
-            cookie
-        )
-      }
+    $.setdata(
+        JSON.stringify({
+            accessToken,
+            userAgent,
+        }),
+        cookie
+    )
+    // if (accessToken.startsWith("eyJhbGciOiJIUzI1NiJ9")) {
+        
+    //   }
     console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
     Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
 }
