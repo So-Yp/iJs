@@ -63,7 +63,7 @@ let sendMessage = [];
         var currentDate = new Date()
         if ($.getdata('timeSpan')??''===''){
             console.log('时间为空')
-            $.setdata(new Date(),"timeSpan")
+            $.setdata(currentDate.getTime(),"timeSpan")
         }else{
             console.log('时间不空')
             var timeSpan = new Date($.getdata('timeSpan'))
@@ -131,9 +131,11 @@ let sendMessage = [];
  });
  async function setdata(headers,accessToken,userAgent,cookie,name) {
     var COOKIE=''
-    var LLSC = JSON.parse($.getdata(cookie))
-    if (JSON.stringify(LLSC) !== '{}'){
-        COOKIE = LLSC.accessToken
+    if ($.getdata(cookie)??''!==''){
+        var LLSC = JSON.parse($.getdata(cookie))
+        if (JSON.stringify(LLSC) !== '{}'){
+            COOKIE = LLSC.accessToken
+        }
     }
     if(COOKIE !== accessToken){
         if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
