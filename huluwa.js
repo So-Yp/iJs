@@ -141,7 +141,7 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
     {
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-        await delay(10000);
+        delay(10000);
     }
 }
 function delay(time) {
