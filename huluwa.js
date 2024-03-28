@@ -34,12 +34,12 @@ var location = $.getdata('imaotai__config__location') || '' // 地址经纬度
 var address = $.getdata('imaotai__config__address') || '' // 详细地址
 var shopid = $.getdata('imaotai__config__shopid') || '' // 商铺id
 var XLTH = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
-$.log(`XLTH_COOKIE ${XLTH}`);
+$.log(`XLTH_COOKIE ${JSON.stringify(XLTH)}`);
 console.log(JSON.stringify(XLTH))
-if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+// if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
 XLTH_COOKIE = XLTH.accessToken // 抓包参数
 var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}') // 抓包参数
-$.log(`kglg_cookies ${KGLG}`);
+$.log(`kglg_cookies ${JSON.stringify(KGLG)}`);
 console.log(JSON.stringify(KGLG))
 if (!KGLG.accessToken || !KGLG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
 KGLG_COOKIE = KGLG.accessToken // 抓包参数
