@@ -117,7 +117,7 @@ let sendMessage = [];
         notify(Message)
         $.done();
  });
-function setdata(headers,accessToken,userAgent,cookie,name) {
+ async function setdata(headers,accessToken,userAgent,cookie,name) {
     var COOKIE=''
     var LLSC = JSON.parse($.getdata(cookie))
     if (JSON.stringify(LLSC) !== '{}'){
@@ -140,7 +140,9 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
     {
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-        delay(10000);
+        console.log("开始延迟");
+        await delay(10000);
+        console.log("延迟结束");
     }
 }
 function delay(time) {
