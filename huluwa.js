@@ -121,7 +121,6 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
     var COOKIE=''
     var LLSC = JSON.parse($.getdata(cookie))
     if (JSON.stringify(LLSC) !== '{}'){
-        console.log("进来了");
         COOKIE = LLSC.accessToken
     }
     if(COOKIE !== accessToken){
