@@ -61,6 +61,8 @@ let sendMessage = [];
         if ($request.method === 'OPTIONS') return false
         console.log(JSON.stringify($request.headers))
         var currentDate = new Date()
+        console.log($.getdata('timeSpan'));
+        console.log(JSON.stringify($.getdata('timeSpan')));
         if ($.getdata('timeSpan')??''===''){
             console.log('时间为空')
             $.setdata(currentDate.getTime(),"timeSpan")
