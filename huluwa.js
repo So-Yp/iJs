@@ -57,12 +57,13 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 let sendMessage = [];
 
 !(async () => {
-    var currentDate = new Date()
-    $.setdata(currentDate.getTime(),"timeSpan")
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
+        var currentDate = new Date()
+        const t_=currentDate.getTime()
         console.log(JSON.stringify($request.headers))
-        
+        console.log(JSON.stringify(t_))
+        $.setdata(t_, 'timeSpan');
         console.log(JSON.stringify($.getdata('timeSpan')));
         if ($.getdata('timeSpan')??''===''){
             console.log('时间为空')
