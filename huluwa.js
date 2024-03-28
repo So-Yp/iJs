@@ -123,7 +123,7 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(JSON.stringify($.getdata(cookie)));
     var LLSC = JSON.parse($.getdata(cookie))
     console.log(JSON.stringify(LLSC));
-    if (!LLSC){
+    if (JSON.stringify(LLSC) !== '{}'){
         console.log("进来了");
         COOKIE = LLSC.accessToken
     }
