@@ -1,8 +1,6 @@
 /**
- 葫芦娃预约 v1.06
-
+ 葫芦娃预约 v2.0
  cron: 30 8 * * *
- const $ = new Env("葫芦娃预约");
 
  自行抓包把token(一般在请求头里)填到变量中, 多账号用换行隔开（可自定义）
 
@@ -20,54 +18,53 @@
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
-https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-body https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
+https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
  */
-const $ = new Env('');
+const $ = new Env('葫芦娃预约');
 //  const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
-var isClearShopDir = $.getdata('imaotai__config__clearshopdir') || false // 是否清理店铺字典
-var province = $.getdata('imaotai__config__province') || '' // 省份
-var city = $.getdata('imaotai__config__city') || '' // 城市
-var itemCode = $.getdata('imaotai__config__itemcode') || '10213' // 预约项
-var location = $.getdata('imaotai__config__location') || '' // 地址经纬度
-var address = $.getdata('imaotai__config__address') || '' // 详细地址
-var shopid = $.getdata('imaotai__config__shopid') || '' // 商铺id
-var XLTH = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
-$.log(`XLTH_COOKIE ${JSON.stringify(XLTH)}`);
-console.log(JSON.stringify(XLTH))
-// if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-XLTH_COOKIE = XLTH.accessToken // 抓包参数
-var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}') // 抓包参数
-$.log(`kglg_cookies ${JSON.stringify(KGLG)}`);
-console.log(JSON.stringify(KGLG))
+var XLTH = JSON.parse($.getdata('xlth_cookies') || '{}') // 抓包参数
+if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+XLTH_COOKIE = XLTH.accessToken 
+var xlth_UserAgent = XLTH.userAgent 
+var GLYP = JSON.parse($.getdata('glyp_cookies') || '{}') 
+if (!GLYP.accessToken || !GLYP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+GLYP_COOKIE = GLYP.accessToken 
+var glyp_UserAgent = GLYP.userAgent 
+var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}') 
 if (!KGLG.accessToken || !KGLG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-KGLG_COOKIE = KGLG.accessToken // 抓包参数
-var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
-var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
-var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
-var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
-var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
+KGLG_COOKIE = KGLG.accessToken 
+var kglg_UserAgent = KGLG.userAgent 
+var HLQG = JSON.parse($.getdata('hlqg_cookies') || '{}') 
+if (!HLQG.accessToken || !HLQG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+HLQG_COOKIE = HLQG.accessToken 
+var hlqg_UserAgent = HLQG.userAgent 
+var ZHCS = JSON.parse($.getdata('zhcs_cookies') || '{}') 
+if (!ZHCS.accessToken || !ZHCS.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+ZHCS_COOKIE = ZHCS.accessToken 
+var zhcs_UserAgent = ZHCS.userAgent 
+var GYQP = JSON.parse($.getdata('gyqp_cookies') || '{}') 
+if (!GYQP.accessToken || !GYQP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+GYQP_COOKIE = GYQP.accessToken 
+var gyqp_UserAgent = GYQP.userAgent 
+var LLSC = JSON.parse($.getdata('llsc_cookies') || '{}') 
+if (!LLSC.accessToken || !LLSC.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+LLSC_COOKIE = LLSC.accessToken 
+var llsc_UserAgent = LLSC.userAgent 
+var YLQX = JSON.parse($.getdata('ylqx_cookies') || '{}') 
+if (!YLQX.accessToken || !YLQX.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+YLQX_COOKIE = YLQX.accessToken 
+var ylqx_UserAgent = YLQX.userAgent 
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
-// if ($.isNode()) {
-//     MT_PROVINCE = process.env.MT_PROVINCE ? process.env.MT_PROVINCE : MT_PROVINCE;
-//     MT_CITY = process.env.MT_CITY ? process.env.MT_CITY : MT_CITY;
-//     MT_DISTRICT = process.env.MT_DISTRICT ? process.env.MT_DISTRICT : MT_DISTRICT;
-//     MT_ITEM_BLACK = process.env.MT_ITEM_BLACK ? process.env.MT_ITEM_BLACK : MT_ITEM_BLACK;
-//     MT_TOKENS = process.env.MT_TOKENS ? process.env.MT_TOKENS : MT_TOKENS;
-//     MT_VERSION = process.env.MT_VERSION ? process.env.MT_VERSION : MT_VERSION;
-//     MT_USERAGENT = process.env.MT_USERAGENT ? process.env.MT_USERAGENT : MT_USERAGENT;
-//     MT_R = process.env.MT_R ? process.env.MT_R : MT_R;
-// }
+
 
 const SPLIT = "\n"; // 分割符（可自定义）
-
 // const axios = require('axios');
 // const crypto = require('crypto');
 // const moment = require('moment');
 // const notify = require('./sendNotify');
-
 const XLTH_APPID = 'wxded2e7e6d60ac09d'; // 新联惠购
 const GLYP_APPID = 'wx61549642d715f361'; // 贵旅优品
 const KGLG_APPID = 'wx613ba8ea6a002aa8'; // 空港乐购
@@ -90,51 +87,44 @@ let sendMessage = [];
         var accessToken = $request.headers['X-access-token'];
         var userAgent = $request.headers['User-Agent'];
         var referer = $request.headers['Referer'];
-
         if(userAgent){
-            var match = userAgent.match(/miniProgram\/([^ ]+)/); // "miniProgram/" 后面的非空格字符 使用 match() 方法获取匹配的结果
+            var match = userAgent.match(/miniProgram\/([^ ]+)/); 
             if (match) {
-            var appid = match[1]; // 获取匹配结果中的第一个捕获组
+            var appid = match[1];
             console.log(appid);
             } else {
                 console.log(`${referer}`)
-                var regex = /\/wx(.*?)\//; // 使用正则表达式匹配 "/wx" 和 "/" 之间的内容
-                var match = referer.match(regex); // 使用match()方法获取匹配的结果
+                var regex = /\/wx(.*?)\//; 
+                var match = referer.match(regex); 
                 if (match) {
-                    var appid = match[1]; // 获取匹配结果中的第二个捕获组
+                    var appid = match[1];  
                 }
             }
         }
         switch(appid) {
                 case XLTH_APPID:
-                    if (JSON.stringify(JSON.parse($.getdata('imaotai_params') || '{}')) === '{}')
-                    {
-                        setdata($request.headers,accessToken,userAgent,`XLTH_COOKIE`,'新联惠购')
-                    }
+                    setdata($request.headers,accessToken,userAgent,`xlth_cookies`,'新联惠购')
                     break
                 case GLYP_APPID:
-                    setdata($request.headers,accessToken,userAgent,`GLYP_COOKIE`,'贵旅优品')
+                    setdata($request.headers,accessToken,userAgent,`glyp_cookies`,'贵旅优品')
                     break
                 case KGLG_APPID:
-                    if (JSON.stringify(JSON.parse($.getdata('kglg_cookies') || '{}')) === '{}')
-                    {
-                        setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
-                    }
+                    setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
                     break
                 case HLQG_APPID:
-                    setdata($request.headers,accessToken,userAgent,`HLQG_COOKIE`,'航旅黔购')
+                    setdata($request.headers,accessToken,userAgent,`hlqg_cookies`,'航旅黔购')
                     break
                 case ZHCS_APPID:
-                    setdata($request.headers,accessToken,userAgent,`ZHCS_COOKIE`,'遵航出山')
+                    setdata($request.headers,accessToken,userAgent,`zhcs_cookies`,'遵航出山')
                     break
                 case GYQP_APPID:
-                    setdata($request.headers,accessToken,userAgent,`GYQP_COOKIE`,'贵盐黔品')
+                    setdata($request.headers,accessToken,userAgent,`gyqp_cookies`,'贵盐黔品')
                     break
                 case LLSC_APPID:
-                    setdata($request.headers,accessToken,userAgent,`LLSC_COOKIE`,'乐旅商城')
+                    setdata($request.headers,accessToken,userAgent,`llsc_cookies`,'乐旅商城')
                     break
                 default:
-                    setdata($request.headers,accessToken,userAgent,`YLQX_COOKIE`,'驿路黔寻')
+                    setdata($request.headers,accessToken,userAgent,`ylqx_cookies`,'驿路黔寻')
                     break;
             }
             return false
@@ -153,16 +143,29 @@ let sendMessage = [];
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
-    $.setdata(
-        JSON.stringify({
-            //headers: headers,
-            accessToken,
-            userAgent,
-        }),
-        cookie
-    )
-    console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
-    Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
+    var COOKIE=''
+    var LLSC = JSON.parse($.getdata(cookie) || '{}'){
+        COOKIE = LLSC.accessToken 
+    }
+    if(LLSC_COOKIE !== accessToken)
+    {
+        if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
+            $.setdata(
+                JSON.stringify({
+                    //headers: headers,
+                    accessToken,
+                    userAgent,
+                }),
+                cookie
+            )
+            console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
+            Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
+          }
+    }else
+    {
+        console.log(`已存在相同的 ${cookie}🎉\n${name}🎉\n`);
+    }
+   
 }
 
 function delay(time) {
@@ -184,7 +187,7 @@ function calculateSignature(method, url, ak, sk, date) {
     return signature;
 }
 
-function buildHeader(method, url, body) {
+function buildHeader(method, url, body,userAgent) {
     const date = moment().utc().format('ddd, DD MMM YYYY HH:mm:ss [GMT]');
     const signature = calculateSignature(method, url, AK, SK, date);
     const digest = calculateDigest(body, SK);
@@ -195,16 +198,17 @@ function buildHeader(method, url, body) {
         'X-HMAC-ALGORITHM': 'hmac-sha256',
         'X-HMAC-DIGEST': digest,
         'X-HMAC-Date': date,
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945'
+        //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945'
+        'User-Agent': userAgent,
     };
     return headers;
 }
 
-async function getUserInfo(appId, token) {
+async function getUserInfo(appId, token,userAgent) {
     const url = '/front-manager/api/customer/queryById/token';
     const method = 'post';
     const data = {appId};
-    const headers = buildHeader(method, url, JSON.stringify(data));
+    const headers = buildHeader(method, url, JSON.stringify(data),userAgent);
     headers['X-access-token'] = token;
 
     let resData;
@@ -218,11 +222,11 @@ async function getUserInfo(appId, token) {
     return resData;
 }
 
-async function getChannelActivity(id, token) {
+async function getChannelActivity(id, token,userAgent) {
     const url = '/front-manager/api/customer/promotion/channelActivity';
     const method = 'post';
     const data = {id};
-    const headers = buildHeader(method, url, JSON.stringify(data));
+    const headers = buildHeader(method, url, JSON.stringify(data),userAgent);
     headers['X-access-token'] = token;
 
     let resData;
@@ -236,11 +240,11 @@ async function getChannelActivity(id, token) {
     return resData;
 }
 
-async function getChannelInfoId(appId) {
+async function getChannelInfoId(appId,userAgent) {
     const url = '/front-manager/api/get/getChannelInfoId';
     const method = 'post';
     const data = {appId};
-    const headers = buildHeader(method, url, JSON.stringify(data));
+    const headers = buildHeader(method, url, JSON.stringify(data),userAgent);
     headers['X-access-token'] = token;
 
     let resData;
@@ -254,11 +258,11 @@ async function getChannelInfoId(appId) {
     return resData;
 }
 
-async function appoint(activityId, channelId, token) {
+async function appoint(activityId, channelId, token,userAgent) {
     const url = '/front-manager/api/customer/promotion/appoint';
     const method = 'post';
     const data = {activityId, channelId};
-    const headers = buildHeader(method, url, JSON.stringify(data));
+    const headers = buildHeader(method, url, JSON.stringify(data),userAgent);
     headers['X-access-token'] = token;
 
     let resData;
@@ -272,11 +276,11 @@ async function appoint(activityId, channelId, token) {
     return resData;
 }
 
-async function checkCustomerInQianggou(activityId, channelId, token) {
+async function checkCustomerInQianggou(activityId, channelId, token,userAgent) {
     const url = '/front-manager/api/customer/promotion/checkCustomerInQianggou';
     const method = 'post';
     const data = {activityId, channelId};
-    const headers = buildHeader(method, url, JSON.stringify(data));
+    const headers = buildHeader(method, url, JSON.stringify(data),userAgent);
     headers['X-access-token'] = token;
 
     let resData;
@@ -290,7 +294,7 @@ async function checkCustomerInQianggou(activityId, channelId, token) {
     return resData;
 }
 
-async function autoSubmit(appId, token) {
+async function autoSubmit(appId, token, userAgent) {
     let channelId = '';
     let channelName = '';
     if (appId === XLTH_APPID) {
@@ -327,7 +331,7 @@ async function autoSubmit(appId, token) {
     }
 
     try {
-        const res1 = await getUserInfo(appId, token);
+        const res1 = await getUserInfo(appId, token,userAgent);
         if (res1.code != '10000') {
             console.log(res1.message);
             sendMessage.push(res1.message);
@@ -338,7 +342,7 @@ async function autoSubmit(appId, token) {
         console.log(`当前用户[${phone}]`);
         sendMessage.push(`当前用户[${phone}]`);
 
-        const res2 = await getChannelActivity(channelId, token);
+        const res2 = await getChannelActivity(channelId, token,userAgent);
         if (res2.code != '10000') {
             console.log(res2.message);
             sendMessage.push(res2.message);
@@ -349,7 +353,7 @@ async function autoSubmit(appId, token) {
         console.log(`活动名称[${activityName}]`);
         sendMessage.push(`活动名称[${activityName}]`);
 
-        const res3 = await checkCustomerInQianggou(activityId, channelId, token);
+        const res3 = await checkCustomerInQianggou(activityId, channelId, token,userAgent);
         if (res3.code != '10000') {
             console.log(res3.message);
             sendMessage.push(res3.message);
@@ -359,7 +363,7 @@ async function autoSubmit(appId, token) {
 
         let message = '用户已经预约成功';
         if (data == false) {
-            const res4 = await appoint(activityId, channelId, token);
+            const res4 = await appoint(activityId, channelId, token,userAgent);
             this.sendMessage = res4.message;
         }
         console.log(`预约结果[${message}]`);
@@ -371,20 +375,14 @@ async function autoSubmit(appId, token) {
 }
 
 async function main() {
-    if (JSON.stringify(imaotaiParams) === '{}') throw `请先开启代理工具对必要参数进行抓包`
-    if (!imaotaiParams.userId || !imaotaiParams.headers['MT-Token']) throw '请先开启代理工具进行抓包相关操作!'
-    if (!province) throw '请在BoxJs中配置省份'
-    if (!city) throw '请在BoxJs中配置城市'
-    if (!itemCode) throw '请在BoxJs中配置预约项'
-    if (!address) throw '请在BoxJs中配置详细地址'
-    const XLTH_COOKIE_ARR = process.env.XLTH_COOKIE; // 新联惠购
-    const GLYP_COOKIE_ARR = process.env.GLYP_COOKIE; // 贵旅优品
-    const KGLG_COOKIE_ARR = process.env.KGLG_COOKIE; // 空港乐购
-    const HLQG_COOKIE_ARR = process.env.HLQG_COOKIE; // 航旅黔购
-    const ZHCS_COOKIE_ARR = process.env.ZHCS_COOKIE; // 遵行出山
-    const GYQP_COOKIE_ARR = process.env.GYQP_COOKIE; // 贵盐黔品
-    const LLSC_COOKIE_ARR = process.env.LLSC_COOKIE; // 乐旅商城
-    const YLQX_COOKIE_ARR = process.env.YLQX_COOKIE; // 驿路黔寻
+    const XLTH_COOKIE_ARR = XLTH_COOKIE; // 新联惠购
+    const GLYP_COOKIE_ARR = GLYP_COOKIE; // 贵旅优品
+    const KGLG_COOKIE_ARR = KGLG_COOKIE; // 空港乐购
+    const HLQG_COOKIE_ARR = HLQG_COOKIE; // 航旅黔购
+    const ZHCS_COOKIE_ARR = ZHCS_COOKIE; // 遵行出山
+    const GYQP_COOKIE_ARR = GYQP_COOKIE; // 贵盐黔品
+    const LLSC_COOKIE_ARR = LLSC_COOKIE; // 乐旅商城
+    const YLQX_COOKIE_ARR = YLQX_COOKIE; // 驿路黔寻
 
     if (XLTH_COOKIE_ARR) {
         console.log('新联惠购预约开始');
@@ -392,7 +390,7 @@ async function main() {
         for (let [index, item] of XLTH_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(XLTH_APPID, item);
+            await autoSubmit(XLTH_APPID, item, xlth_UserAgent);
             await delay(1000);
         }
         console.log('新联惠购预约结束\n');
@@ -405,7 +403,7 @@ async function main() {
         for (let [index, item] of GLYP_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(GLYP_APPID, item);
+            await autoSubmit(GLYP_APPID, item, glyp_UserAgent);
             await delay(1000);
         }
         console.log('贵旅优品预约结束\n');
@@ -418,7 +416,7 @@ async function main() {
         for (let [index, item] of KGLG_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(KGLG_APPID, item);
+            await autoSubmit(KGLG_APPID, item,kglg_UserAgent);
             await delay(1000);
         }
         console.log('空港乐购预约结束\n');
@@ -431,7 +429,7 @@ async function main() {
         for (let [index, item] of HLQG_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(HLQG_APPID, item);
+            await autoSubmit(HLQG_APPID, item,hlqg_UserAgent);
             await delay(1000);
         }
         console.log('航旅黔购预约结束\n');
@@ -444,7 +442,7 @@ async function main() {
         for (let [index, item] of ZHCS_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(ZHCS_APPID, item);
+            await autoSubmit(ZHCS_APPID, item,zhcs_UserAgent);
             await delay(1000);
         }
         console.log('遵行出山预约结束\n');
@@ -457,7 +455,7 @@ async function main() {
         for (let [index, item] of GYQP_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(GYQP_APPID, item);
+            await autoSubmit(GYQP_APPID, item,gyqp_UserAgent);
             await delay(1000);
         }
         console.log('贵盐黔品预约结束\n');
@@ -470,7 +468,7 @@ async function main() {
         for (let [index, item] of LLSC_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(LLSC_APPID, item);
+            await autoSubmit(LLSC_APPID, item,llsc_UserAgent);
             await delay(1000);
         }
         console.log('乐旅商城预约结束\n');
@@ -483,16 +481,14 @@ async function main() {
         for (let [index, item] of YLQX_COOKIE_ARR.split(SPLIT).entries()) {
             console.log(`----第${index + 1}个号----`);
             sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(YLQX_APPID, item);
+            await autoSubmit(YLQX_APPID, item,ylqx_UserAgent);
             await delay(1000);
         }
         console.log('驿路黔寻预约结束\n');
         sendMessage.push('驿路黔寻预约结束\n');
     }
-
-    //await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知 By：一泽');
+    await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
 }
-
 
 // prettier-ignore
 function Env(t, e) {
