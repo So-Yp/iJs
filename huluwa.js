@@ -59,69 +59,59 @@ let sendMessage = [];
 !(async () => {
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
-        console.log(JSON.stringify($request.headers))
-        var x = 0
-        console.log(JSON.stringify($.getdata('timeSpan')));
-        if ($.getdata('timeSpan')??''===''){
-            console.log('为空')
-            $.setdata(x,"timeSpan")
-        }else{
-            console.log('时间不空')
-            var timeSpan = new Date($.getdata('timeSpan'))
-            if ( timeSpan > 3 ) {
-                console.log("返回")
-                return 
-            }
-        }
         var accessToken = $request.headers['X-access-token'];
-        var userAgent = $request.headers['User-Agent'];
-        var referer = $request.headers['Referer'];
-        if(userAgent){
-            var match = userAgent.match(/miniProgram\/([^ ]+)/); 
-            if (match) {
-            var appid = match[1];
-            console.log(appid);
-            } else {
-                console.log(`${referer}`)
-                var regex = /\/wx(.*?)\//; 
-                var match = referer.match(regex); 
-                if (match) {
-                    var appid = match[1];  
+        const body=$.toObj($.request.body)
+        if(body['code']==='10000')  {
+            const {realName, phone,phoneIsBind}=body['data']
+            if(phoneIsBind){
+                var userAgent = $request.headers['User-Agent'];
+                var referer = $request.headers['Referer'];
+                if(userAgent){
+                    var match = userAgent.match(/miniProgram\/([^ ]+)/); 
+                    if (match) {
+                    var appid = match[1];
+                    console.log(appid);
+                    } else {
+                        console.log(`${referer}`)
+                        var regex = /\/wx(.*?)\//; 
+                        var match = referer.match(regex); 
+                        if (match) {
+                            var appid = match[1];  
+                        }
+                    }
                 }
+                switch(appid) {
+                        case XLTH_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`xlth_cookies`,'新联惠购')
+                            break
+                        case GLYP_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`glyp_cookies`,'贵旅优品')
+                            break
+                        case KGLG_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
+                            break
+                        case HLQG_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`hlqg_cookies`,'航旅黔购')
+                            break
+                        case ZHCS_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`zhcs_cookies`,'遵航出山')
+                            break
+                        case GYQP_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`gyqp_cookies`,'贵盐黔品')
+                            break
+                        case LLSC_APPID:
+                            await setdata($request.headers,accessToken,userAgent,`llsc_cookies`,'乐旅商城')
+                            break
+                        default:
+                            await setdata($request.headers,accessToken,userAgent,`ylqx_cookies`,'驿路黔寻')
+                            break;
+                    }
+                    return false
+                    $.done();
+                } 
             }
         }
-        switch(appid) {
-                case XLTH_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`xlth_cookies`,'新联惠购')
-                    break
-                case GLYP_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`glyp_cookies`,'贵旅优品')
-                    break
-                case KGLG_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
-                    break
-                case HLQG_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`hlqg_cookies`,'航旅黔购')
-                    break
-                case ZHCS_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`zhcs_cookies`,'遵航出山')
-                    break
-                case GYQP_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`gyqp_cookies`,'贵盐黔品')
-                    break
-                case LLSC_APPID:
-                    await setdata($request.headers,accessToken,userAgent,`llsc_cookies`,'乐旅商城')
-                    break
-                default:
-                    await setdata($request.headers,accessToken,userAgent,`ylqx_cookies`,'驿路黔寻')
-                    break;
-            }
-            return false
-            $.done();
-        } 
-        x = x + 1
-        $.setdata(x, 'timeSpan');
-        console.log($.getdata('timeSpan'))
+        
     //main();
 })()
 .catch((e) => {
