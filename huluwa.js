@@ -33,7 +33,17 @@ var itemCode = $.getdata('imaotai__config__itemcode') || '10213' // 预约项
 var location = $.getdata('imaotai__config__location') || '' // 地址经纬度
 var address = $.getdata('imaotai__config__address') || '' // 详细地址
 var shopid = $.getdata('imaotai__config__shopid') || '' // 商铺id
-var imaotaiParams = JSON.parse($.getdata('imaotai_params') || '{}') // 抓包参数
+var XLTH = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
+if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+XLTH_COOKIE = XLTH.userId // 抓包参数
+var KGLG = JSON.parse($.getdata('KGLG_COOKIE') || '{}') // 抓包参数
+if (!KGLG.accessToken || !KGLG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+KGLG_COOKIE = KGLG.userId // 抓包参数
+var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
+var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
+var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
+var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
+var XLTH_COOKIE = JSON.parse($.getdata('XLTH_COOKIE') || '{}') // 抓包参数
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
 // if ($.isNode()) {
@@ -135,7 +145,7 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
     $.setdata(
         JSON.stringify({
-            headers: headers,
+            //headers: headers,
             accessToken,
             userAgent,
         }),
