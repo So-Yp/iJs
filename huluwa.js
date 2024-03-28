@@ -141,7 +141,7 @@ let sendMessage = [];
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
         console.log("开始延迟");
-        await delay(10000);
+        await delay(120000);
         console.log("延迟结束");
     }
 }
