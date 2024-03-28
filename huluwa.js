@@ -1,7 +1,6 @@
 /**
  葫芦娃预约 v2.0
  cron: 30 8 * * *
-
  自行抓包把token(一般在请求头里)填到变量中, 多账号用换行隔开（可自定义）
 
  环境变量 XLTH_COOKIE 新联惠购
@@ -18,44 +17,44 @@
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
-https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
+https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/huluwa.js
 
  */
 const $ = new Env('葫芦娃预约');
 //  const notify = $.isNode() ? require('./sendNotify') : '';
-// 配置项
-// var XLTH = JSON.parse($.getdata('xlth_cookies') || '{}') // 抓包参数
-// if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// XLTH_COOKIE = XLTH.accessToken 
-// var xlth_UserAgent = XLTH.userAgent 
-// var GLYP = JSON.parse($.getdata('glyp_cookies') || '{}') 
-// if (!GLYP.accessToken || !GLYP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// GLYP_COOKIE = GLYP.accessToken 
-// var glyp_UserAgent = GLYP.userAgent 
-// var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}') 
-// if (!KGLG.accessToken || !KGLG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// KGLG_COOKIE = KGLG.accessToken 
-// var kglg_UserAgent = KGLG.userAgent 
-// var HLQG = JSON.parse($.getdata('hlqg_cookies') || '{}') 
-// if (!HLQG.accessToken || !HLQG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// HLQG_COOKIE = HLQG.accessToken 
-// var hlqg_UserAgent = HLQG.userAgent 
-// var ZHCS = JSON.parse($.getdata('zhcs_cookies') || '{}') 
-// if (!ZHCS.accessToken || !ZHCS.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// ZHCS_COOKIE = ZHCS.accessToken 
-// var zhcs_UserAgent = ZHCS.userAgent 
-// var GYQP = JSON.parse($.getdata('gyqp_cookies') || '{}') 
-// if (!GYQP.accessToken || !GYQP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// GYQP_COOKIE = GYQP.accessToken 
-// var gyqp_UserAgent = GYQP.userAgent 
-// var LLSC = JSON.parse($.getdata('llsc_cookies') || '{}') 
-// if (!LLSC.accessToken || !LLSC.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// LLSC_COOKIE = LLSC.accessToken 
-// var llsc_UserAgent = LLSC.userAgent 
-// var YLQX = JSON.parse($.getdata('ylqx_cookies') || '{}') 
-// if (!YLQX.accessToken || !YLQX.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-// YLQX_COOKIE = YLQX.accessToken 
-// var ylqx_UserAgent = YLQX.userAgent 
+//配置项
+var XLTH = JSON.parse($.getdata('xlth_cookies') || '{}') // 抓包参数
+if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+XLTH_COOKIE = XLTH.accessToken 
+var xlth_UserAgent = XLTH.userAgent 
+var GLYP = JSON.parse($.getdata('glyp_cookies') || '{}') 
+if (!GLYP.accessToken || !GLYP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+GLYP_COOKIE = GLYP.accessToken 
+var glyp_UserAgent = GLYP.userAgent 
+var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}') 
+if (!KGLG.accessToken || !KGLG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+KGLG_COOKIE = KGLG.accessToken 
+var kglg_UserAgent = KGLG.userAgent 
+var HLQG = JSON.parse($.getdata('hlqg_cookies') || '{}') 
+if (!HLQG.accessToken || !HLQG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+HLQG_COOKIE = HLQG.accessToken 
+var hlqg_UserAgent = HLQG.userAgent 
+var ZHCS = JSON.parse($.getdata('zhcs_cookies') || '{}') 
+if (!ZHCS.accessToken || !ZHCS.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+ZHCS_COOKIE = ZHCS.accessToken 
+var zhcs_UserAgent = ZHCS.userAgent 
+var GYQP = JSON.parse($.getdata('gyqp_cookies') || '{}') 
+if (!GYQP.accessToken || !GYQP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+GYQP_COOKIE = GYQP.accessToken 
+var gyqp_UserAgent = GYQP.userAgent 
+var LLSC = JSON.parse($.getdata('llsc_cookies') || '{}') 
+if (!LLSC.accessToken || !LLSC.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+LLSC_COOKIE = LLSC.accessToken 
+var llsc_UserAgent = LLSC.userAgent 
+var YLQX = JSON.parse($.getdata('ylqx_cookies') || '{}') 
+if (!YLQX.accessToken || !YLQX.userAgent) throw '请先开启代理工具进行抓包相关操作!'
+YLQX_COOKIE = YLQX.accessToken 
+var ylqx_UserAgent = YLQX.userAgent 
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
 
@@ -143,31 +142,17 @@ let sendMessage = [];
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
-    var COOKIE=''
-    console.log(JSON.stringify($.getdata(cookie)));
-    var LLSC = JSON.parse($.getdata(cookie))
-    if (!LLSC){
-        COOKIE = LLSC.accessToken
-    }
-    if(COOKIE !== accessToken)
-    {
-        if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
-            $.setdata(
-                JSON.stringify({
-                    //headers: headers,
-                    accessToken,
-                    userAgent,
-                }),
-                cookie
-            )
-            console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
-            Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-          }
-    }else
-    {
-        console.log(`已存在相同的 ${cookie}🎉\n${name}🎉\n`);
-    }
-   
+    if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
+        $.setdata(
+            JSON.stringify({
+                accessToken,
+                userAgent,
+            }),
+            cookie
+        )
+      }
+    console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
+    Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
 }
 
 function delay(time) {
@@ -200,7 +185,6 @@ function buildHeader(method, url, body,userAgent) {
         'X-HMAC-ALGORITHM': 'hmac-sha256',
         'X-HMAC-DIGEST': digest,
         'X-HMAC-Date': date,
-        //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945'
         'User-Agent': userAgent,
     };
     return headers;
