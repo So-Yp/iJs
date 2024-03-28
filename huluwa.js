@@ -144,10 +144,11 @@ let sendMessage = [];
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
     var COOKIE=''
-    var LLSC = JSON.parse($.getdata(cookie) || '{}'){
-        COOKIE = LLSC.accessToken 
+    var LLSC = JSON.parse($.getdata(cookie) || '{}')
+    if (!LLSC){
+        COOKIE = LLSC.accessToken
     }
-    if(LLSC_COOKIE !== accessToken)
+    if(COOKIE !== accessToken)
     {
         if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
             $.setdata(
