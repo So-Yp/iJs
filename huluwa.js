@@ -59,17 +59,17 @@ let sendMessage = [];
 !(async () => {
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
-        var currentDate = new Date()
         console.log(JSON.stringify($request.headers))
+        var x = 0
         console.log(JSON.stringify($.getdata('timeSpan')));
         if ($.getdata('timeSpan')??''===''){
-            console.log('时间为空')
-            $.setdata(currentDate,"timeSpan")
+            console.log('为空')
+            $.setdata(x,"timeSpan")
         }else{
             console.log('时间不空')
             var timeSpan = new Date($.getdata('timeSpan'))
-            if ( currentDate.getTime() - timeSpan.getTime() < 120000 ) {
-                console.log("小于2分钟，返回")
+            if ( timeSpan > 3 ) {
+                console.log("返回")
                 return 
             }
         }
@@ -155,9 +155,8 @@ let sendMessage = [];
     {
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-        var currentDate = new Date()
-        console.log(JSON.stringify(currentDate))
-        $.setdata(currentDate, 'timeSpan');
+        x = x + 1
+        $.setdata(x, 'timeSpan');
         console.log($.getdata('timeSpan'))
     }
 }
