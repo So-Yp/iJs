@@ -60,14 +60,11 @@ let sendMessage = [];
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
         var currentDate = new Date()
-        const t_=currentDate.getTime()
         console.log(JSON.stringify($request.headers))
-        console.log(JSON.stringify(t_))
-        $.setdata(t_, 'timeSpan');
         console.log(JSON.stringify($.getdata('timeSpan')));
         if ($.getdata('timeSpan')??''===''){
             console.log('时间为空')
-            $.setdata(currentDate.getTime(),"timeSpan")
+            $.setdata(currentDate,"timeSpan")
         }else{
             console.log('时间不空')
             var timeSpan = new Date($.getdata('timeSpan'))
@@ -159,10 +156,9 @@ let sendMessage = [];
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
         var currentDate = new Date()
-        const t_=currentDate.getTime()
-        console.log(JSON.stringify(t_))
-        $.setdata(t_, 'timeSpan');
-        console.log(JSON.stringify($.getdata('timeSpan')))
+        console.log(JSON.stringify(currentDate))
+        $.setdata(currentDate, 'timeSpan');
+        console.log($.getdata('timeSpan'))
     }
 }
 function delay(time) {
