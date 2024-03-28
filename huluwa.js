@@ -103,6 +103,9 @@ let sendMessage = [];
                     setdata($request.headers,accessToken,userAgent,`ylqx_cookies`,'驿路黔寻')
                     break;
             }
+            console.log("执行一遍");
+            await delay(120000);
+            
             return false
             $.done();
         } 
@@ -146,6 +149,7 @@ let sendMessage = [];
     }
 }
 function delay(time) {
+    console.log("进入延迟");
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
