@@ -118,11 +118,8 @@ let sendMessage = [];
         $.done();
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
-    console.log(`${cookie}🎉\n${name}🎉\n`);
     var COOKIE=''
-    console.log(JSON.stringify($.getdata(cookie)));
     var LLSC = JSON.parse($.getdata(cookie))
-    console.log(JSON.stringify(LLSC));
     if (JSON.stringify(LLSC) !== '{}'){
         console.log("进来了");
         COOKIE = LLSC.accessToken
@@ -142,7 +139,9 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
           }
     }else
     {
-        console.log(`已存在相同的 ${cookie}🎉\n${name}🎉\n`);
+        console.log(`已存在相同的 ${cookie}🎉\n`);
+        Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
+        await delay(10000);
     }
 }
 function delay(time) {
