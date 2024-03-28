@@ -125,12 +125,12 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
             }),
             cookie
         )
+        console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
+        Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
       }else
       {
         Message = `获取${name}数据失败🎉\n 无效的token，请刷新小程序`
       }
-    console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
-    Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
 }
 
 function delay(time) {
