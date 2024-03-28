@@ -142,7 +142,7 @@ let sendMessage = [];
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
-    if (accessToken.startsWith(`eyJhbGciOiJIUzI1NiJ9`)) {
+    if (accessToken.startsWith("eyJhbGciOiJIUzI1NiJ9")) {
         $.setdata(
             JSON.stringify({
                 accessToken,
