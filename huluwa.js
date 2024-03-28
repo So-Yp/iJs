@@ -60,6 +60,18 @@ let sendMessage = [];
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
         console.log(JSON.stringify($request.headers))
+        var currentDate = new Date()
+        if ($.getdata('timeSpan')??''===''){
+            console.log('时间为空')
+            $.setdata(new Date(),"timeSpan")
+        }else{
+            console.log('时间不空')
+            var timeSpan = new Date($.getdata('timeSpan'))
+            if ( currentDate.getTime() - timeSpan.getTime() < 120000 ) {
+                console.log("小于2分钟，返回")
+                return 
+            }
+        }
         var accessToken = $request.headers['X-access-token'];
         var userAgent = $request.headers['User-Agent'];
         var referer = $request.headers['Referer'];
@@ -144,6 +156,7 @@ let sendMessage = [];
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
     }
+    
 }
 function delay(time) {
     console.log("进入延迟");
