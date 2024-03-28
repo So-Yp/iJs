@@ -22,7 +22,14 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
  */
 const $ = new Env('葫芦娃预约');
 //  const notify = $.isNode() ? require('./sendNotify') : '';
-
+var xlth_UserAgent =''
+var glyp_UserAgent =''
+var kglg_UserAgent ='' 
+var hlqg_UserAgent =''
+var zhcs_UserAgent ='' 
+var gyqp_UserAgent =''
+var llsc_UserAgent =''
+var ylqx_UserAgent ='' 
 var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
 
@@ -332,46 +339,51 @@ async function autoSubmit(appId, token, userAgent) {
 async function main() {
     //配置项
     var XLTH = JSON.parse($.getdata("xlth_cookies") || "{}") // 抓包参数
-    if (!XLTH.accessToken || !XLTH.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    XLTH_COOKIE = XLTH.accessToken 
-    var xlth_UserAgent = XLTH.userAgent 
+    if (JSON.stringify(XLTH) !== '{}'){
+        const XLTH_COOKIE_ARR = XLTH.accessToken // 新联惠购
+        xlth_UserAgent = XLTH.userAgent 
+    }
     var GLYP = JSON.parse($.getdata("glyp_cookies") || "{}") 
-    if (!GLYP.accessToken || !GLYP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    GLYP_COOKIE = GLYP.accessToken 
-    var glyp_UserAgent = GLYP.userAgent 
+    if (JSON.stringify(GLYP) !== '{}'){
+        const GLYP_COOKIE_ARR = GLYP.accessToken // 贵旅优品
+        glyp_UserAgent = GLYP.userAgent 
+    }
+   
     var KGLG = JSON.parse($.getdata("kglg_cookies") || "{}") 
-    if (!KGLG.accessToken || !KGLG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    KGLG_COOKIE = KGLG.accessToken 
-    var kglg_UserAgent = KGLG.userAgent 
+    if (JSON.stringify(KGLG) !== '{}'){
+        const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
+        kglg_UserAgent = KGLG.userAgent 
+    }
+   
     var HLQG = JSON.parse($.getdata("hlqg_cookies") || "{}") 
-    if (!HLQG.accessToken || !HLQG.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    HLQG_COOKIE = HLQG.accessToken 
-    var hlqg_UserAgent = HLQG.userAgent 
+    if (JSON.stringify(HLQG) !== '{}'){
+        const HLQG_COOKIE_ARR = HLQG.accessToken // 航旅黔购
+        hlqg_UserAgent = HLQG.userAgent 
+    }
+   
     var ZHCS = JSON.parse($.getdata("zhcs_cookies") || "{}") 
-    if (!ZHCS.accessToken || !ZHCS.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    ZHCS_COOKIE = ZHCS.accessToken 
-    var zhcs_UserAgent = ZHCS.userAgent 
+    if (JSON.stringify(ZHCS) !== '{}'){
+        const ZHCS_COOKIE_ARR = ZHCS.accessToken // 遵行出山
+        var zhcs_UserAgent = ZHCS.userAgent 
+    }
     var GYQP = JSON.parse($.getdata("gyqp_cookies") || "{}") 
-    if (!GYQP.accessToken || !GYQP.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    GYQP_COOKIE = GYQP.accessToken 
-    var gyqp_UserAgent = GYQP.userAgent 
+    if (JSON.stringify(GYQP) !== '{}'){
+        const GYQP_COOKIE_ARR = GYQP.accessToken // 贵盐黔品
+        var gyqp_UserAgent = GYQP.userAgent 
+    }
+   
     var LLSC = JSON.parse($.getdata("llsc_cookies") || "{}") 
-    if (!LLSC.accessToken || !LLSC.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    LLSC_COOKIE = LLSC.accessToken 
-    var llsc_UserAgent = LLSC.userAgent 
+    if (JSON.stringify(LLSC) !== '{}'){
+        const LLSC_COOKIE_ARR = LLSC.accessToken // 乐旅商城
+        var llsc_UserAgent = LLSC.userAgent 
+    }
+  
     var YLQX = JSON.parse($.getdata("ylqx_cookies") || "{}") 
-    if (!YLQX.accessToken || !YLQX.userAgent) throw '请先开启代理工具进行抓包相关操作!'
-    YLQX_COOKIE = YLQX.accessToken 
-    var ylqx_UserAgent = YLQX.userAgent 
-    const XLTH_COOKIE_ARR = XLTH_COOKIE; // 新联惠购
-    const GLYP_COOKIE_ARR = GLYP_COOKIE; // 贵旅优品
-    const KGLG_COOKIE_ARR = KGLG_COOKIE; // 空港乐购
-    const HLQG_COOKIE_ARR = HLQG_COOKIE; // 航旅黔购
-    const ZHCS_COOKIE_ARR = ZHCS_COOKIE; // 遵行出山
-    const GYQP_COOKIE_ARR = GYQP_COOKIE; // 贵盐黔品
-    const LLSC_COOKIE_ARR = LLSC_COOKIE; // 乐旅商城
-    const YLQX_COOKIE_ARR = YLQX_COOKIE; // 驿路黔寻
-
+    if (JSON.stringify(YLQX) !== '{}'){
+        const YLQX_COOKIE_ARR = YLQX.accessToken // 驿路黔寻
+        ylqx_UserAgent = YLQX.userAgent 
+    }
+   
     if (XLTH_COOKIE_ARR) {
         console.log('新联惠购预约开始');
         sendMessage.push('新联惠购预约开始');
