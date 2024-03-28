@@ -60,8 +60,6 @@ let sendMessage = [];
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
         console.log(JSON.stringify($request.headers))
-        localStorage.setItem('timeSpan',new Date())
-        console.log(localStorage.getItem('timeSpan'))
         var currentDate = new Date()
         if ($.getdata('timeSpan')??''===''){
             console.log('时间为空')
@@ -155,7 +153,6 @@ let sendMessage = [];
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
     }
-    
 }
 function delay(time) {
     console.log("进入延迟");
