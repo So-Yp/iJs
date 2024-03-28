@@ -79,33 +79,33 @@ let sendMessage = [];
         }
         switch(appid) {
                 case XLTH_APPID:
-                    setdata($request.headers,accessToken,userAgent,`xlth_cookies`,'新联惠购')
+                    await setdata($request.headers,accessToken,userAgent,`xlth_cookies`,'新联惠购')
                     break
                 case GLYP_APPID:
-                    setdata($request.headers,accessToken,userAgent,`glyp_cookies`,'贵旅优品')
+                    await setdata($request.headers,accessToken,userAgent,`glyp_cookies`,'贵旅优品')
                     break
                 case KGLG_APPID:
-                    setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
+                    await setdata($request.headers,accessToken,userAgent,`kglg_cookies`,'空港乐购')
                     break
                 case HLQG_APPID:
-                    setdata($request.headers,accessToken,userAgent,`hlqg_cookies`,'航旅黔购')
+                    await setdata($request.headers,accessToken,userAgent,`hlqg_cookies`,'航旅黔购')
                     break
                 case ZHCS_APPID:
-                    setdata($request.headers,accessToken,userAgent,`zhcs_cookies`,'遵航出山')
+                    await setdata($request.headers,accessToken,userAgent,`zhcs_cookies`,'遵航出山')
                     break
                 case GYQP_APPID:
-                    setdata($request.headers,accessToken,userAgent,`gyqp_cookies`,'贵盐黔品')
+                    await setdata($request.headers,accessToken,userAgent,`gyqp_cookies`,'贵盐黔品')
                     break
                 case LLSC_APPID:
-                    setdata($request.headers,accessToken,userAgent,`llsc_cookies`,'乐旅商城')
+                    await setdata($request.headers,accessToken,userAgent,`llsc_cookies`,'乐旅商城')
                     break
                 default:
-                    setdata($request.headers,accessToken,userAgent,`ylqx_cookies`,'驿路黔寻')
+                    await setdata($request.headers,accessToken,userAgent,`ylqx_cookies`,'驿路黔寻')
                     break;
             }
             console.log("执行一遍");
             await delay(120000);
-            
+            console.log("延迟结束");
             return false
             $.done();
         } 
@@ -143,9 +143,6 @@ let sendMessage = [];
     {
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-        console.log("开始延迟");
-        await delay(120000);
-        console.log("延迟结束");
     }
 }
 function delay(time) {
