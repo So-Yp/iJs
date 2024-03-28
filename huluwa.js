@@ -144,6 +144,7 @@ let sendMessage = [];
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
     var COOKIE=''
+    console.log(JSON.stringify($.getdata(cookie)));
     var LLSC = JSON.parse($.getdata(cookie))
     if (!LLSC){
         COOKIE = LLSC.accessToken
