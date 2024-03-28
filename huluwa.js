@@ -1,6 +1,7 @@
 /**
  葫芦娃预约 v2.0
  cron: 30 8 * * *
+
  自行抓包把token(一般在请求头里)填到变量中, 多账号用换行隔开（可自定义）
 
  环境变量 XLTH_COOKIE 新联惠购
@@ -17,11 +18,12 @@
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
-https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/huluwa.js
+https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
  */
 const $ = new Env('');
 //  const notify = $.isNode() ? require('./sendNotify') : '';
+// 配置项
 var xlth_UserAgent =''
 var glyp_UserAgent =''
 var kglg_UserAgent ='' 
@@ -117,22 +119,31 @@ let sendMessage = [];
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
-      if (accessToken.startsWith("eyJhbGciOiJIUzI1NiJ9")) {
-        $.setdata(
-            JSON.stringify({
-                accessToken,
-                userAgent,
-            }),
-            cookie
-        )
-        console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
-        Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-      }else
-      {
-        Message = `获取${name}数据失败🎉\n 无效的token，请刷新小程序`
-      }
+    var COOKIE=''
+    console.log(JSON.stringify($.getdata(cookie)));
+    // var LLSC = JSON.parse($.getdata(cookie))
+    // if (!LLSC){
+    //     COOKIE = LLSC.accessToken
+    // }
+    if(COOKIE !== accessToken)
+    {
+        if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
+            $.setdata(
+                JSON.stringify({
+                    //headers: headers,
+                    accessToken,
+                    userAgent,
+                }),
+                cookie
+            )
+            console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
+            Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
+          }
+    }else
+    {
+        console.log(`已存在相同的 ${cookie}🎉\n${name}🎉\n`);
+    }
 }
-
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
@@ -163,6 +174,7 @@ function buildHeader(method, url, body,userAgent) {
         'X-HMAC-ALGORITHM': 'hmac-sha256',
         'X-HMAC-DIGEST': digest,
         'X-HMAC-Date': date,
+        //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945'
         'User-Agent': userAgent,
     };
     return headers;
@@ -339,7 +351,6 @@ async function autoSubmit(appId, token, userAgent) {
 }
 
 async function main() {
-    //配置项
     var XLTH = JSON.parse($.getdata("xlth_cookies") || "{}") // 抓包参数
     if (JSON.stringify(XLTH) !== '{}'){
         const XLTH_COOKIE_ARR = XLTH.accessToken // 新联惠购
@@ -350,19 +361,16 @@ async function main() {
         const GLYP_COOKIE_ARR = GLYP.accessToken // 贵旅优品
         glyp_UserAgent = GLYP.userAgent 
     }
-   
     var KGLG = JSON.parse($.getdata("kglg_cookies") || "{}") 
     if (JSON.stringify(KGLG) !== '{}'){
         const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
         kglg_UserAgent = KGLG.userAgent 
     }
-   
     var HLQG = JSON.parse($.getdata("hlqg_cookies") || "{}") 
     if (JSON.stringify(HLQG) !== '{}'){
         const HLQG_COOKIE_ARR = HLQG.accessToken // 航旅黔购
         hlqg_UserAgent = HLQG.userAgent 
     }
-   
     var ZHCS = JSON.parse($.getdata("zhcs_cookies") || "{}") 
     if (JSON.stringify(ZHCS) !== '{}'){
         const ZHCS_COOKIE_ARR = ZHCS.accessToken // 遵行出山
@@ -373,19 +381,16 @@ async function main() {
         const GYQP_COOKIE_ARR = GYQP.accessToken // 贵盐黔品
         var gyqp_UserAgent = GYQP.userAgent 
     }
-   
     var LLSC = JSON.parse($.getdata("llsc_cookies") || "{}") 
     if (JSON.stringify(LLSC) !== '{}'){
         const LLSC_COOKIE_ARR = LLSC.accessToken // 乐旅商城
         var llsc_UserAgent = LLSC.userAgent 
     }
-  
     var YLQX = JSON.parse($.getdata("ylqx_cookies") || "{}") 
     if (JSON.stringify(YLQX) !== '{}'){
         const YLQX_COOKIE_ARR = YLQX.accessToken // 驿路黔寻
         ylqx_UserAgent = YLQX.userAgent 
     }
-   
     if (XLTH_COOKIE_ARR) {
         console.log('新联惠购预约开始');
         sendMessage.push('新联惠购预约开始');
