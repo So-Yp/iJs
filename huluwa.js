@@ -119,6 +119,9 @@ let sendMessage = [];
             return false
             $.done();
         } 
+        x = x + 1
+        $.setdata(x, 'timeSpan');
+        console.log($.getdata('timeSpan'))
     //main();
 })()
 .catch((e) => {
@@ -155,9 +158,6 @@ let sendMessage = [];
     {
         console.log(`已存在相同的 ${cookie}🎉\n`);
         Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
-        x = x + 1
-        $.setdata(x, 'timeSpan');
-        console.log($.getdata('timeSpan'))
     }
 }
 function delay(time) {
