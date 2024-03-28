@@ -20,7 +20,7 @@ hostname = gw.huiqunchina.com
 https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/huluwa.js
 
  */
-const $ = new Env('葫芦娃预约');
+const $ = new Env('');
 //  const notify = $.isNode() ? require('./sendNotify') : '';
 var xlth_UserAgent =''
 var glyp_UserAgent =''
@@ -117,16 +117,18 @@ let sendMessage = [];
  });
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`${cookie}🎉\n${name}🎉\n`);
-    $.setdata(
-        JSON.stringify({
-            accessToken,
-            userAgent,
-        }),
-        cookie
-    )
-    // if (accessToken.startsWith("eyJhbGciOiJIUzI1NiJ9")) {
-        
-    //   }
+      if (accessToken.startsWith("eyJhbGciOiJIUzI1NiJ9")) {
+        $.setdata(
+            JSON.stringify({
+                accessToken,
+                userAgent,
+            }),
+            cookie
+        )
+      }else
+      {
+        Message = `获取${name}数据失败🎉\n 无效的token，请刷新小程序`
+      }
     console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
     Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
 }
