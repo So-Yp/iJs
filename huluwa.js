@@ -410,7 +410,7 @@ async function main() {
     }
    
     var KGLG = JSON.parse($.getdata("kglg_cookies") || "{}") 
-    if (&& typeof KGLG !== 'undefined' && KGLG !== null){
+    if (typeof KGLG !== 'undefined' && KGLG !== null){
         const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
         kglg_UserAgent = KGLG.userAgent 
         if (KGLG_COOKIE_ARR && kglg_UserAgent) {
