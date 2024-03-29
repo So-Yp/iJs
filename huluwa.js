@@ -65,7 +65,6 @@ let sendMessage = [];
 .catch((e) => {
         $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
         Message += `❌ 失败! 原因: ${e}!`
-        throw ${e}
     })
     .finally(() => {
         const notify = async (msg) => $.msg($.name, '', msg)
@@ -525,7 +524,7 @@ async function main() {
         console.log(`运行结束`);
         await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
     } catch (error) {
-        throw ${error}
+        $.log('', `❌ ${$.name}, 出错了，原因: ${error}!`, '');
     }
 }
 
