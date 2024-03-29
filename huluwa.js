@@ -58,7 +58,7 @@ let sendMessage = [];
     //     if ($request.method === 'OPTIONS') return false
     //     GetCookie();
     // }else{
-        main();
+       await main();
     // }
     
 })()
@@ -375,7 +375,7 @@ async function main() {
     try {
         console.log(`运行开始`);
         //配置项
-        var XLTH = JSON.parse($.getdata("xlth_cookies")) // 抓包参数
+        var XLTH = JSON.parse($.getdata("xlth_cookies") || '{}') // 抓包参数
         if (JSON.stringify(XLTH) !== '{}'){
             const XLTH_COOKIE_ARR = XLTH.accessToken // 新联惠购
             xlth_UserAgent = XLTH.userAgent 
@@ -392,7 +392,7 @@ async function main() {
                 sendMessage.push('新联惠购预约结束\n');
             }
         }
-        var GLYP = JSON.parse($.getdata("glyp_cookies")) 
+        var GLYP = JSON.parse($.getdata("glyp_cookies") || '{}') 
         if (JSON.stringify(GLYP) !== '{}'){
             const GLYP_COOKIE_ARR = GLYP.accessToken // 贵旅优品
             glyp_UserAgent = GLYP.userAgent 
@@ -409,8 +409,8 @@ async function main() {
                 sendMessage.push('贵旅优品预约结束\n');
             }
         }
-    
-        var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}') 
+        
+        var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}')
         console.log(`空港乐购${JSON.stringify(KGLG)}`);
         if (typeof KGLG !== 'undefined' && KGLG !== null){
             const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
@@ -430,7 +430,7 @@ async function main() {
                 sendMessage.push('空港乐购预约结束\n');
             }
         }
-        var HLQG = JSON.parse($.getdata("hlqg_cookies")) 
+        var HLQG = JSON.parse($.getdata("hlqg_cookies") || '{}') 
         if (JSON.stringify(HLQG) !== '{}'){
             const HLQG_COOKIE_ARR = HLQG.accessToken // 航旅黔购
             hlqg_UserAgent = HLQG.userAgent 
@@ -447,7 +447,7 @@ async function main() {
                 sendMessage.push('航旅黔购预约结束\n');
             }
         }
-        var ZHCS = JSON.parse($.getdata("zhcs_cookies")) 
+        var ZHCS = JSON.parse($.getdata("zhcs_cookies") || '{}') 
         if (JSON.stringify(ZHCS) !== '{}'){
             const ZHCS_COOKIE_ARR = ZHCS.accessToken // 遵行出山
             zhcs_UserAgent = ZHCS.userAgent 
@@ -467,7 +467,7 @@ async function main() {
                 sendMessage.push('遵行出山预约结束\n');
             }
         }
-        var GYQP = JSON.parse($.getdata('gyqp_cookies')) 
+        var GYQP = JSON.parse($.getdata('gyqp_cookies') || '{}') 
         if (JSON.stringify(GYQP) !== '{}'){
             const GYQP_COOKIE_ARR = GYQP.accessToken // 贵盐黔品
             gyqp_UserAgent = GYQP.userAgent
@@ -484,7 +484,7 @@ async function main() {
                 sendMessage.push('贵盐黔品预约结束\n');
             } 
         }
-        var LLSC = JSON.parse($.getdata("llsc_cookies")) 
+        var LLSC = JSON.parse($.getdata("llsc_cookies") || '{}') 
         if (JSON.stringify(LLSC) !== '{}'){
             const LLSC_COOKIE_ARR = LLSC.accessToken // 乐旅商城
             llsc_UserAgent = LLSC.userAgent 
@@ -501,7 +501,7 @@ async function main() {
                 sendMessage.push('乐旅商城预约结束\n');
             }
         }
-        var YLQX = JSON.parse($.getdata("ylqx_cookies")) 
+        var YLQX = JSON.parse($.getdata("ylqx_cookies") || '{}') 
         if (JSON.stringify(YLQX) !== '{}'){
             const YLQX_COOKIE_ARR = YLQX.accessToken // 驿路黔寻
             ylqx_UserAgent = YLQX.userAgent 
