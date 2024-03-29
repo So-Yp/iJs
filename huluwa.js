@@ -60,17 +60,20 @@ let sendMessage = [];
     if ($request && typeof $request === 'object') {
         if ($request.method === 'OPTIONS') return false
         var accessToken = $request.headers['X-access-token'];
-        var currentDate=new Date().getTime();
-        console.log(`时间错${currentDate}🎉\n`);
-        $.setdata( JSON.stringify(currentDate), 'timeSpan')
-        var times = JSON.parse($.getdata('timeSpan'))
+        var currentDate=new Date();
+        var currentTime=currentDate.getTime();
+        console.log(`当前时间错${currentTime}🎉\n`);
+        $.setdata( JSON.stringify(currentTime), 'timeSpan')
+        var times = $.getdata('timeSpan')
         console.log(`times时间${times}🎉\n`);
-        if(currentDate - times  < 2000 ){
-            console.log(`小于2秒钟，返回🎉\n`);
-            return 
-        } else{
-            console.log(`是哦\n`);
-        } 
+        if (times!=null||times !='' ) {
+            if(currentTime - times  < 8000 ){
+                console.log(`小于2秒钟，返回🎉\n`);
+                return 
+            } else{
+                console.log(`是哦\n`);
+            } 
+        }
         var userAgent = $request.headers['User-Agent'];
         var referer = $request.headers['Referer'];
         if(userAgent){
