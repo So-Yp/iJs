@@ -63,12 +63,12 @@ let sendMessage = [];
         var currentDate=new Date();
         var currentTime=currentDate.getTime();
         console.log(`当前时间错${currentTime}🎉\n`);
-        $.setdata( JSON.stringify(currentTime), 'timeSpan')
         var times = $.getdata('timeSpan')
-        console.log(`times时间${times}🎉\n`);
-        if (times!=null||times !='' ) {
+        console.log(`获取全局times时间${times}🎉\n`);
+        if (times! == null || times !== '' ) {
             if(currentTime - times  < 8000 ){
                 console.log(`小于2秒钟，返回🎉\n`);
+                $.setdata( JSON.stringify(currentTime), 'timeSpan')
                 return 
             } else{
                 console.log(`是哦\n`);
