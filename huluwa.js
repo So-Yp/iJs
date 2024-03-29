@@ -411,12 +411,9 @@ async function main() {
         }
         console.log(`token ${JSON.stringify($.getdata('kglg_cookies'))}`);
         var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}')
-        console.log(`空港乐购${JSON.stringify(KGLG)}`);
         if (typeof KGLG !== 'undefined' && KGLG !== null){
             const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
             kglg_UserAgent = KGLG.userAgent 
-            console.log(`KGLG_COOKIE_ARR空港乐购${KGLG_COOKIE_ARR}`);
-            console.log(`kglg_UserAgent空港乐购${kglg_UserAgent}`);
             if (KGLG_COOKIE_ARR && kglg_UserAgent) {
                 console.log('空港乐购预约开始');
                 sendMessage.push('新联惠购预约开始');
