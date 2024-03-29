@@ -372,6 +372,7 @@ async function autoSubmit(appId, token, userAgent) {
 }
 
 async function main() {
+    console.log(`运行开始`);
     //配置项
     var XLTH = JSON.parse($.getdata("xlth_cookies") || "{}") // 抓包参数
     if (JSON.stringify(XLTH) !== '{}'){
@@ -409,7 +410,7 @@ async function main() {
     }
    
     var KGLG = JSON.parse($.getdata("kglg_cookies") || "{}") 
-    if (JSON.stringify(KGLG) !== '{}'){
+    if (&& typeof KGLG !== 'undefined' && KGLG !== null){
         const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
         kglg_UserAgent = KGLG.userAgent 
         if (KGLG_COOKIE_ARR && kglg_UserAgent) {
@@ -516,7 +517,7 @@ async function main() {
             sendMessage.push('驿路黔寻预约结束\n');
         }
     }
-   
+    console.log(`运行结束`);
     await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
 }
 
