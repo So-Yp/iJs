@@ -1,7 +1,6 @@
 /**
  葫芦娃预约 v2.0
  cron: 30 8 * * *
-
  自行抓包把token(一般在请求头里)填到变量中, 多账号用换行隔开（可自定义）
 
  环境变量 XLTH_COOKIE 新联惠购
@@ -18,12 +17,11 @@
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
-https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
+https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/huluwa.js
 
  */
 const $ = new Env('');
 //  const notify = $.isNode() ? require('./sendNotify') : '';
-// 配置项
 var xlth_UserAgent =''
 var glyp_UserAgent =''
 var kglg_UserAgent ='' 
@@ -55,14 +53,14 @@ const AK = '00670fb03584fbf44dd6b136e534f495';
 const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 
 let sendMessage = [];
-
 !(async () => {
-    if ($request && typeof $request === 'object' && $request !== `undefined`) {
-        if ($request.method === 'OPTIONS') return false
-        GetCookie();
-    }else{
-       //main();
-    }
+    // if ($request && typeof $request === 'object' && $request !== `undefined`) {
+    //     if ($request.method === 'OPTIONS') return false
+    //     GetCookie();
+    // }else{
+       
+    // }
+    main();
 })()
 .catch((e) => {
         $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
@@ -77,16 +75,13 @@ let sendMessage = [];
     var accessToken = $request.headers['X-access-token'];
     var currentDate=new Date();
     var currentTime=currentDate.getTime();
-    console.log(`当前时间${currentTime}🎉\n`);
     var times = $.getdata('timeSpan')
-    console.log(`获取全局时间${times}🎉\n`);
     if (times !== null || times !== '' ) {
         if(currentTime - times  < 60000 ){
             console.log(`小于1分钟，返回🎉\n`);
             return 
         } else{
             $.setdata( JSON.stringify(currentTime), 'timeSpan')
-            console.log(`重新通知，重新赋值时间\n`);
         } 
     }
     var userAgent = $request.headers['User-Agent'];
@@ -145,23 +140,20 @@ function setdata(headers,accessToken,userAgent,cookie,name) {
         if (accessToken.startsWith('eyJhbGciOiJIUzI1NiJ9')) {
             $.setdata(
                 JSON.stringify({
-                    //headers: headers,
                     accessToken,
                     userAgent,
                 }),
                 cookie
             )
-            console.log(`获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`);
             Message = `获取${name}数据成功🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
           }
     }else
     {
-        console.log(`已存在相同的 ${cookie}🎉\n`);
-        Message = `已获取过${name}🎉\n Token:${accessToken}\n User-Agent:${userAgent}🎉`
+        Message = `已获取过${name}🎉\n Token:${accessToken}🎉`
     }
 }
+
 function delay(time) {
-    console.log("进入延迟");
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
@@ -191,7 +183,6 @@ function buildHeader(method, url, body,userAgent) {
         'X-HMAC-ALGORITHM': 'hmac-sha256',
         'X-HMAC-DIGEST': digest,
         'X-HMAC-Date': date,
-        //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945'
         'User-Agent': userAgent,
     };
     return headers;
@@ -301,6 +292,7 @@ async function autoSubmit(appId, token, userAgent) {
     if (appId === KGLG_APPID) {
         channelId = '2';
         channelName = '空港乐购';
+        return
     }
     if (appId === HLQG_APPID) {
         channelId = '6';
@@ -338,7 +330,10 @@ async function autoSubmit(appId, token, userAgent) {
         const res2 = await getChannelActivity(channelId, token,userAgent);
         if (res2.code != '10000') {
             console.log(res2.message);
-            sendMessage.push(res2.message);
+            //sendMessage.push(res2.message);
+            Message = res2.message
+            const notify = async (msg) => $.msg($.name, '', msg)
+            notify(Message)
             return;
         }
         const activityId = res2.data.id;
@@ -349,7 +344,10 @@ async function autoSubmit(appId, token, userAgent) {
         const res3 = await checkCustomerInQianggou(activityId, channelId, token,userAgent);
         if (res3.code != '10000') {
             console.log(res3.message);
-            sendMessage.push(res3.message);
+            //sendMessage.push(res3.message);
+            Message = res3.message
+            const notify = async (msg) => $.msg($.name, '', msg)
+            notify(Message)
             return;
         }
         const data = res3.data;
@@ -360,157 +358,165 @@ async function autoSubmit(appId, token, userAgent) {
             this.sendMessage = res4.message;
         }
         console.log(`预约结果[${message}]`);
-        sendMessage.push(`预约结果[${message}]`);
+        //sendMessage.push(`预约结果[${message}]`);
+        Message = res4.message
+        const notify = async (msg) => $.msg($.name, '', msg)
+        notify(Message)
     } catch (err) {
         console.log(`运行异常[${err.message}]`);
-        sendMessage.push(`运行异常[${err.message}]`);
+        //sendMessage.push(`运行异常[${err.message}]`);
+        Message = err
+        const notify = async (msg) => $.msg($.name, '', msg)
+        notify(Message)
     }
 }
 
 async function main() {
+    //配置项
     var XLTH = JSON.parse($.getdata("xlth_cookies") || "{}") // 抓包参数
     if (JSON.stringify(XLTH) !== '{}'){
         const XLTH_COOKIE_ARR = XLTH.accessToken // 新联惠购
         xlth_UserAgent = XLTH.userAgent 
+        if (XLTH_COOKIE_ARR && xlth_UserAgent) {
+            console.log('新联惠购预约开始');
+            sendMessage.push('新联惠购预约开始');
+            for (let [index, item] of XLTH_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(XLTH_APPID, item, xlth_UserAgent);
+                await delay(1000);
+            }
+            console.log('新联惠购预约结束\n');
+            sendMessage.push('新联惠购预约结束\n');
+        }
     }
     var GLYP = JSON.parse($.getdata("glyp_cookies") || "{}") 
     if (JSON.stringify(GLYP) !== '{}'){
         const GLYP_COOKIE_ARR = GLYP.accessToken // 贵旅优品
         glyp_UserAgent = GLYP.userAgent 
+        if (GLYP_COOKIE_ARR && glyp_UserAgent) {
+            console.log('贵旅优品预约开始');
+            sendMessage.push('贵旅优品预约开始');
+            for (let [index, item] of GLYP_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(GLYP_APPID, item, glyp_UserAgent);
+                await delay(1000);
+            }
+            console.log('贵旅优品预约结束\n');
+            sendMessage.push('贵旅优品预约结束\n');
+        }
     }
+   
     var KGLG = JSON.parse($.getdata("kglg_cookies") || "{}") 
     if (JSON.stringify(KGLG) !== '{}'){
         const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
         kglg_UserAgent = KGLG.userAgent 
+        if (KGLG_COOKIE_ARR && kglg_UserAgent) {
+            console.log('空港乐购预约开始');
+            sendMessage.push('新联惠购预约开始');
+            for (let [index, item] of KGLG_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(KGLG_APPID, item,kglg_UserAgent);
+                await delay(1000);
+            }
+            console.log('空港乐购预约结束\n');
+            sendMessage.push('空港乐购预约结束\n');
+        }
     }
+   
     var HLQG = JSON.parse($.getdata("hlqg_cookies") || "{}") 
     if (JSON.stringify(HLQG) !== '{}'){
         const HLQG_COOKIE_ARR = HLQG.accessToken // 航旅黔购
         hlqg_UserAgent = HLQG.userAgent 
+        if (HLQG_COOKIE_ARR && hlqg_UserAgent) {
+            console.log('航旅黔购预约开始');
+            sendMessage.push('新联惠购预约开始');
+            for (let [index, item] of HLQG_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(HLQG_APPID, item,hlqg_UserAgent);
+                await delay(1000);
+            }
+            console.log('航旅黔购预约结束\n');
+            sendMessage.push('航旅黔购预约结束\n');
+        }
     }
     var ZHCS = JSON.parse($.getdata("zhcs_cookies") || "{}") 
     if (JSON.stringify(ZHCS) !== '{}'){
         const ZHCS_COOKIE_ARR = ZHCS.accessToken // 遵行出山
-        var zhcs_UserAgent = ZHCS.userAgent 
+        zhcs_UserAgent = ZHCS.userAgent 
+        if (ZHCS_COOKIE_ARR && zhcs_UserAgent) {
+            console.log('遵行出山预约开始');
+            Message = `遵行出山预约开始`
+            const notify = async (msg) => $.msg($.name, '', msg)
+            notify(Message)
+            //sendMessage.push('新联惠购预约开始');
+            for (let [index, item] of ZHCS_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(ZHCS_APPID, item,zhcs_UserAgent);
+                await delay(1000);
+            }
+            console.log('遵行出山预约结束\n');
+            sendMessage.push('遵行出山预约结束\n');
+        }
     }
     var GYQP = JSON.parse($.getdata("gyqp_cookies") || "{}") 
     if (JSON.stringify(GYQP) !== '{}'){
         const GYQP_COOKIE_ARR = GYQP.accessToken // 贵盐黔品
-        var gyqp_UserAgent = GYQP.userAgent 
+         gyqp_UserAgent = GYQP.userAgent
+        if (GYQP_COOKIE_ARR && gyqp_UserAgent) {
+            console.log('贵盐黔品预约开始');
+            sendMessage.push('贵盐黔品预约开始');
+            for (let [index, item] of GYQP_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(GYQP_APPID, item,gyqp_UserAgent);
+                await delay(1000);
+            }
+            console.log('贵盐黔品预约结束\n');
+            sendMessage.push('贵盐黔品预约结束\n');
+        } 
     }
+   
     var LLSC = JSON.parse($.getdata("llsc_cookies") || "{}") 
     if (JSON.stringify(LLSC) !== '{}'){
         const LLSC_COOKIE_ARR = LLSC.accessToken // 乐旅商城
-        var llsc_UserAgent = LLSC.userAgent 
+        llsc_UserAgent = LLSC.userAgent 
+        if (LLSC_COOKIE_ARR && llsc_UserAgent) {
+            console.log('乐旅商城预约开始');
+            sendMessage.push('乐旅商城预约开始');
+            for (let [index, item] of LLSC_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(LLSC_APPID, item,llsc_UserAgent);
+                await delay(1000);
+            }
+            console.log('乐旅商城预约结束\n');
+            sendMessage.push('乐旅商城预约结束\n');
+        }
     }
+  
     var YLQX = JSON.parse($.getdata("ylqx_cookies") || "{}") 
     if (JSON.stringify(YLQX) !== '{}'){
         const YLQX_COOKIE_ARR = YLQX.accessToken // 驿路黔寻
         ylqx_UserAgent = YLQX.userAgent 
-    }
-    if (XLTH_COOKIE_ARR) {
-        console.log('新联惠购预约开始');
-        sendMessage.push('新联惠购预约开始');
-        for (let [index, item] of XLTH_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(XLTH_APPID, item, xlth_UserAgent);
-            await delay(1000);
+        if (YLQX_COOKIE_ARR && ylqx_UserAgent) {
+            console.log('驿路黔寻预约开始');
+            sendMessage.push('驿路黔寻预约开始');
+            for (let [index, item] of YLQX_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(YLQX_APPID, item,ylqx_UserAgent);
+                await delay(1000);
+            }
+            console.log('驿路黔寻预约结束\n');
+            sendMessage.push('驿路黔寻预约结束\n');
         }
-        console.log('新联惠购预约结束\n');
-        sendMessage.push('新联惠购预约结束\n');
     }
-
-    if (GLYP_COOKIE_ARR) {
-        console.log('贵旅优品预约开始');
-        sendMessage.push('贵旅优品预约开始');
-        for (let [index, item] of GLYP_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(GLYP_APPID, item, glyp_UserAgent);
-            await delay(1000);
-        }
-        console.log('贵旅优品预约结束\n');
-        sendMessage.push('贵旅优品预约结束\n');
-    }
-
-    if (KGLG_COOKIE_ARR) {
-        console.log('空港乐购预约开始');
-        sendMessage.push('新联惠购预约开始');
-        for (let [index, item] of KGLG_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(KGLG_APPID, item,kglg_UserAgent);
-            await delay(1000);
-        }
-        console.log('空港乐购预约结束\n');
-        sendMessage.push('空港乐购预约结束\n');
-    }
-
-    if (HLQG_COOKIE_ARR) {
-        console.log('航旅黔购预约开始');
-        sendMessage.push('新联惠购预约开始');
-        for (let [index, item] of HLQG_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(HLQG_APPID, item,hlqg_UserAgent);
-            await delay(1000);
-        }
-        console.log('航旅黔购预约结束\n');
-        sendMessage.push('航旅黔购预约结束\n');
-    }
-
-    if (ZHCS_COOKIE_ARR) {
-        console.log('遵行出山预约开始');
-        sendMessage.push('新联惠购预约开始');
-        for (let [index, item] of ZHCS_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(ZHCS_APPID, item,zhcs_UserAgent);
-            await delay(1000);
-        }
-        console.log('遵行出山预约结束\n');
-        sendMessage.push('遵行出山预约结束\n');
-    }
-
-    if (GYQP_COOKIE_ARR) {
-        console.log('贵盐黔品预约开始');
-        sendMessage.push('贵盐黔品预约开始');
-        for (let [index, item] of GYQP_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(GYQP_APPID, item,gyqp_UserAgent);
-            await delay(1000);
-        }
-        console.log('贵盐黔品预约结束\n');
-        sendMessage.push('贵盐黔品预约结束\n');
-    }
-
-    if (LLSC_COOKIE_ARR) {
-        console.log('乐旅商城预约开始');
-        sendMessage.push('乐旅商城预约开始');
-        for (let [index, item] of LLSC_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(LLSC_APPID, item,llsc_UserAgent);
-            await delay(1000);
-        }
-        console.log('乐旅商城预约结束\n');
-        sendMessage.push('乐旅商城预约结束\n');
-    }
-
-    if (YLQX_COOKIE_ARR) {
-        console.log('驿路黔寻预约开始');
-        sendMessage.push('驿路黔寻预约开始');
-        for (let [index, item] of YLQX_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(YLQX_APPID, item,ylqx_UserAgent);
-            await delay(1000);
-        }
-        console.log('驿路黔寻预约结束\n');
-        sendMessage.push('驿路黔寻预约结束\n');
-    }
+   
     await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
 }
 
