@@ -67,11 +67,11 @@ let sendMessage = [];
         console.log(`获取全局times时间${times}🎉\n`);
         if (times !== null || times !== '' ) {
             if(currentTime - times  < 8000 ){
-                console.log(`小于2秒钟，返回🎉\n`);
-                $.setdata( JSON.stringify(currentTime), 'timeSpan')
+                console.log(`小于8秒钟，返回🎉\n`);
                 return 
             } else{
-                console.log(`是哦\n`);
+                $.setdata( JSON.stringify(currentTime), 'timeSpan')
+                console.log(`重新通知，重新赋值时间\n`);
             } 
         }
         var userAgent = $request.headers['User-Agent'];
