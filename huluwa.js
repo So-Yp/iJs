@@ -409,7 +409,7 @@ async function main() {
                 sendMessage.push('贵旅优品预约结束\n');
             }
         }
-        
+        console.log(`token ${JSON.stringify($.getdata('kglg_cookies'))}`);
         var KGLG = JSON.parse($.getdata('kglg_cookies') || '{}')
         console.log(`空港乐购${JSON.stringify(KGLG)}`);
         if (typeof KGLG !== 'undefined' && KGLG !== null){
