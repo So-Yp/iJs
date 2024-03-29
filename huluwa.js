@@ -129,6 +129,7 @@ let sendMessage = [];
         return false
  }
 function setdata(headers,accessToken,userAgent,cookie,name) {
+    console.log(`获取到请求头${JSON.stringify({ accessToken,userAgent,})}\n`);
     var COOKIE=''
     if ($.getdata(cookie)??''!==''){
         var LLSC = JSON.parse($.getdata(cookie))
