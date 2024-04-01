@@ -19,8 +19,8 @@ hostname = gw.huiqunchina.com
 [rewrite_local]
 https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/huluwa.js
 
- **/
-
+ */
+// -----------------------------------------------------------------------------------------
 const $ = new Env('');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const SPLIT = "\n"; // 分割符（可自定义）
@@ -39,7 +39,7 @@ var gyqp_UserAgent =''
 var llsc_UserAgent =''
 var ylqx_UserAgent ='' 
 var Message = '' // 消息内容
-// -----------------------------------------------------------------------------------------
+
 
 const XLTH_APPID = 'wxded2e7e6d60ac09d'; // 偲源惠购
 const GLYP_APPID = 'wx61549642d715f361'; // 贵旅优品
@@ -55,22 +55,19 @@ const AK = '00670fb03584fbf44dd6b136e534f495';
 const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 let sendMessage = [];
 
-
 //主程序执行入口
 !(async () => {
-    try {
-        if (typeof $request != "undefined") {
-            await getCookie();
-        } else {
-            await main();
-        }
-    } catch (e) {
-        throw e;
+    if (typeof $request != "undefined") {
+        await getCookie();
+    } else {
+        await main();
     }
 })()
-.catch((e) => { $.logErr(e), $.msg($.name, `⛔️ script run error!`, e.message || e) })
-.finally(async () => {
-    $.done({ ok: 1 });
+.catch((e) => {
+    $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
+})
+.finally(() => {
+    $.done();
 });
 
 
