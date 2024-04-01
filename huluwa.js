@@ -53,27 +53,28 @@ const YLQX_APPID = 'wxee0ce83ab4b26f9c'; // 驿路黔寻
 const HOST = 'https://gw.huiqunchina.com';
 const AK = '00670fb03584fbf44dd6b136e534f495';
 const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
-
 let sendMessage = [];
+
+
+//主程序执行入口
 !(async () => {
-    if ($request && typeof $request === 'object' && $request !== `undefined`) {
-        if ($request.method === 'OPTIONS') return false
-        GetCookie();
-    }else{
-       await main();
+    try {
+        if (typeof $request != "undefined") {
+            await getCookie();
+        } else {
+            await main();
+        }
+    } catch (e) {
+        throw e;
     }
-    
 })()
-.catch((e) => {
-        $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
-        Message += `❌ 失败! 原因: ${e}!`
-    })
-    .finally(() => {
-        const notify = async (msg) => $.msg($.name, '', msg)
-        notify(Message)
-        $.done();
- });
- function GetCookie(){
+    .catch((e) => { $.logErr(e), $.msg($.name, `⛔️ script run error!`, e.message || e) })
+    .finally(async () => {
+        $.done({ ok: 1 });
+    });
+
+
+ function getCookie(){
     var accessToken = $request.headers['X-access-token'];
     var currentDate=new Date();
     var currentTime=currentDate.getTime();
@@ -129,7 +130,7 @@ let sendMessage = [];
                 break;
         }
         return false
- }
+}
 function setdata(headers,accessToken,userAgent,cookie,name) {
     var COOKIE=''
     if ($.getdata(cookie)??''!==''){
@@ -521,23 +522,6 @@ async function main() {
         $.log('', `❌ ${$.name}, 出错了，原因: ${error}!`, '');
     }
 }
-
-//主程序执行入口
-!(async () => {
-    try {
-        if (typeof $request != "undefined") {
-            await getCookie();
-        } else {
-            await main();
-        }
-    } catch (e) {
-        throw e;
-    }
-})()
-    .catch((e) => { $.logErr(e), $.msg($.name, `⛔️ script run error!`, e.message || e) })
-    .finally(async () => {
-        $.done({ ok: 1 });
-    });
 
 /** ---------------------------------固定不动区域----------------------------------------- */
 //prettier-ignore
