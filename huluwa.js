@@ -34,14 +34,6 @@ var Message = '' // 消息内容
 // -----------------------------------------------------------------------------------------
 
 
-const SPLIT = "\n"; // 分割符（可自定义）
-console.log('require未注入',require);
-const axios = require('axios');
-const crypto = require('crypto');
-const moment = require('moment');
-console.log('require已注入',require);
-// const notify = require('./sendNotify');
-
 const XLTH_APPID = 'wxded2e7e6d60ac09d'; // 偲源惠购
 const GLYP_APPID = 'wx61549642d715f361'; // 贵旅优品
 const KGLG_APPID = 'wx613ba8ea6a002aa8'; // 空港乐购
@@ -295,6 +287,7 @@ async function autoSubmit(appId, token, userAgent) {
     if (appId === KGLG_APPID) {
         channelId = '2';
         channelName = '空港乐购';
+        return
     }
     if (appId === HLQG_APPID) {
         channelId = '6';
@@ -374,6 +367,13 @@ async function autoSubmit(appId, token, userAgent) {
 }
 
 async function main() {
+    const SPLIT = "\n"; // 分割符（可自定义）
+    console.log('require未注入',require);
+    const axios = require('axios');
+    const crypto = require('crypto');
+    const moment = require('moment');
+    console.log('require已注入',require);
+    // const notify = require('./sendNotify');
     try {
         console.log('偲源惠购预约开始');
         //配置项
