@@ -24,11 +24,11 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
 const $ = new Env('');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const SPLIT = "\n"; // 分割符（可自定义）
-console.log('require未注入',require);
-const axios = require('axios');
-const crypto = require('crypto');
-const moment = require('moment');
-console.log('require已注入',require);
+console.log('require未注入');
+//const axios = require('axios');
+//const crypto = require('crypto');
+//const moment = require('moment');
+console.log('require已注入');
 
 var xlth_UserAgent =''
 var glyp_UserAgent =''
