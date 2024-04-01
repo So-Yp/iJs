@@ -21,7 +21,7 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
 
  */
 const $ = new Env('');
-const notify = $.isNode() ? require('./sendNotify') : '';
+// const notify = $.isNode() ? require('./sendNotify') : '';
 var xlth_UserAgent =''
 var glyp_UserAgent =''
 var kglg_UserAgent ='' 
