@@ -23,7 +23,7 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
 */
 
 const $ = new Env('葫芦娃');
-const notify = $.isNode() ? require('./sendNotify') : '';
+//const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var xlth_UserAgent =''
 var glyp_UserAgent =''
@@ -367,147 +367,140 @@ async function main() {
     var XLTH = JSON.parse($.getdata("xlth_cookies") || "{}") // 抓包参数
     if (JSON.stringify(XLTH) !== '{}'){
         const XLTH_COOKIE_ARR = XLTH.accessToken // 偲源惠购
-        xlth_UserAgent = XLTH.userAgent 
+        xlth_UserAgent = XLTH.userAgent
+        if (XLTH_COOKIE_ARR) {
+            console.log('偲源惠购预约开始');
+            sendMessage.push('偲源惠购预约开始');
+            for (let [index, item] of XLTH_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(XLTH_APPID, item, xlth_UserAgent);
+                await delay(1000);
+            }
+            console.log('偲源惠购预约结束\n');
+            sendMessage.push('偲源惠购预约结束\n');
+        } 
     }
     var GLYP = JSON.parse($.getdata("glyp_cookies") || "{}") 
     if (JSON.stringify(GLYP) !== '{}'){
         const GLYP_COOKIE_ARR = GLYP.accessToken // 贵旅优品
         glyp_UserAgent = GLYP.userAgent 
+        if (GLYP_COOKIE_ARR) {
+            console.log('贵旅优品预约开始');
+            sendMessage.push('贵旅优品预约开始');
+            for (let [index, item] of GLYP_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(GLYP_APPID, item, glyp_UserAgent);
+                await delay(1000);
+            }
+            console.log('贵旅优品预约结束\n');
+            sendMessage.push('贵旅优品预约结束\n');
+        }
     }
     var KGLG = JSON.parse($.getdata("kglg_cookies") || "{}") 
     if (JSON.stringify(KGLG) !== '{}'){
         const KGLG_COOKIE_ARR  = KGLG.accessToken // 空港乐购
         kglg_UserAgent = KGLG.userAgent 
+        if (KGLG_COOKIE_ARR) {
+            console.log('空港乐购预约开始');
+            sendMessage.push('偲源惠购预约开始');
+            for (let [index, item] of KGLG_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(KGLG_APPID, item,kglg_UserAgent);
+                await delay(1000);
+            }
+            console.log('空港乐购预约结束\n');
+            sendMessage.push('空港乐购预约结束\n');
+        }
     }
     var HLQG = JSON.parse($.getdata("hlqg_cookies") || "{}") 
     if (JSON.stringify(HLQG) !== '{}'){
         const HLQG_COOKIE_ARR = HLQG.accessToken // 航旅黔购
         hlqg_UserAgent = HLQG.userAgent 
+        if (HLQG_COOKIE_ARR) {
+            console.log('航旅黔购预约开始');
+            sendMessage.push('偲源惠购预约开始');
+            for (let [index, item] of HLQG_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(HLQG_APPID, item,hlqg_UserAgent);
+                await delay(1000);
+            }
+            console.log('航旅黔购预约结束\n');
+            sendMessage.push('航旅黔购预约结束\n');
+        }
     }
     var ZHCS = JSON.parse($.getdata("zhcs_cookies") || "{}") 
     if (JSON.stringify(ZHCS) !== '{}'){
         const ZHCS_COOKIE_ARR = ZHCS.accessToken // 遵行出山
         var zhcs_UserAgent = ZHCS.userAgent 
+        if (GYQP_COOKIE_ARR) {
+            console.log('贵盐黔品预约开始');
+            sendMessage.push('贵盐黔品预约开始');
+            for (let [index, item] of GYQP_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(GYQP_APPID, item,gyqp_UserAgent);
+                await delay(1000);
+            }
+            console.log('贵盐黔品预约结束\n');
+            sendMessage.push('贵盐黔品预约结束\n');
+        }
     }
     var GYQP = JSON.parse($.getdata("gyqp_cookies") || "{}") 
     if (JSON.stringify(GYQP) !== '{}'){
         const GYQP_COOKIE_ARR = GYQP.accessToken // 贵盐黔品
         var gyqp_UserAgent = GYQP.userAgent 
+        if (ZHCS_COOKIE_ARR) {
+            console.log('遵行出山预约开始');
+            sendMessage.push('偲源惠购预约开始');
+            for (let [index, item] of ZHCS_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(ZHCS_APPID, item,zhcs_UserAgent);
+                await delay(1000);
+            }
+            console.log('遵行出山预约结束\n');
+            sendMessage.push('遵行出山预约结束\n');
+        }
     }
     var LLSC = JSON.parse($.getdata("llsc_cookies") || "{}") 
     if (JSON.stringify(LLSC) !== '{}'){
         const LLSC_COOKIE_ARR = LLSC.accessToken // 乐旅商城
         var llsc_UserAgent = LLSC.userAgent 
+        if (LLSC_COOKIE_ARR) {
+            console.log('乐旅商城预约开始');
+            sendMessage.push('乐旅商城预约开始');
+            for (let [index, item] of LLSC_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(LLSC_APPID, item,llsc_UserAgent);
+                await delay(1000);
+            }
+            console.log('乐旅商城预约结束\n');
+            sendMessage.push('乐旅商城预约结束\n');
+        }
     }
     var YLQX = JSON.parse($.getdata("ylqx_cookies") || "{}") 
     if (JSON.stringify(YLQX) !== '{}'){
         const YLQX_COOKIE_ARR = YLQX.accessToken // 驿路黔寻
         ylqx_UserAgent = YLQX.userAgent 
-    }
-    if (XLTH_COOKIE_ARR) {
-        console.log('偲源惠购预约开始');
-        sendMessage.push('偲源惠购预约开始');
-        for (let [index, item] of XLTH_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(XLTH_APPID, item, xlth_UserAgent);
-            await delay(1000);
+        if (YLQX_COOKIE_ARR) {
+            console.log('驿路黔寻预约开始');
+            sendMessage.push('驿路黔寻预约开始');
+            for (let [index, item] of YLQX_COOKIE_ARR.split(SPLIT).entries()) {
+                console.log(`----第${index + 1}个号----`);
+                sendMessage.push(`----第${index + 1}个号----`);
+                await autoSubmit(YLQX_APPID, item,ylqx_UserAgent);
+                await delay(1000);
+            }
+            console.log('驿路黔寻预约结束\n');
+            sendMessage.push('驿路黔寻预约结束\n');
         }
-        console.log('偲源惠购预约结束\n');
-        sendMessage.push('偲源惠购预约结束\n');
     }
-
-    if (GLYP_COOKIE_ARR) {
-        console.log('贵旅优品预约开始');
-        sendMessage.push('贵旅优品预约开始');
-        for (let [index, item] of GLYP_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(GLYP_APPID, item, glyp_UserAgent);
-            await delay(1000);
-        }
-        console.log('贵旅优品预约结束\n');
-        sendMessage.push('贵旅优品预约结束\n');
-    }
-
-    if (KGLG_COOKIE_ARR) {
-        console.log('空港乐购预约开始');
-        sendMessage.push('偲源惠购预约开始');
-        for (let [index, item] of KGLG_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(KGLG_APPID, item,kglg_UserAgent);
-            await delay(1000);
-        }
-        console.log('空港乐购预约结束\n');
-        sendMessage.push('空港乐购预约结束\n');
-    }
-
-    if (HLQG_COOKIE_ARR) {
-        console.log('航旅黔购预约开始');
-        sendMessage.push('偲源惠购预约开始');
-        for (let [index, item] of HLQG_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(HLQG_APPID, item,hlqg_UserAgent);
-            await delay(1000);
-        }
-        console.log('航旅黔购预约结束\n');
-        sendMessage.push('航旅黔购预约结束\n');
-    }
-
-    if (ZHCS_COOKIE_ARR) {
-        console.log('遵行出山预约开始');
-        sendMessage.push('偲源惠购预约开始');
-        for (let [index, item] of ZHCS_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(ZHCS_APPID, item,zhcs_UserAgent);
-            await delay(1000);
-        }
-        console.log('遵行出山预约结束\n');
-        sendMessage.push('遵行出山预约结束\n');
-    }
-
-    if (GYQP_COOKIE_ARR) {
-        console.log('贵盐黔品预约开始');
-        sendMessage.push('贵盐黔品预约开始');
-        for (let [index, item] of GYQP_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(GYQP_APPID, item,gyqp_UserAgent);
-            await delay(1000);
-        }
-        console.log('贵盐黔品预约结束\n');
-        sendMessage.push('贵盐黔品预约结束\n');
-    }
-
-    if (LLSC_COOKIE_ARR) {
-        console.log('乐旅商城预约开始');
-        sendMessage.push('乐旅商城预约开始');
-        for (let [index, item] of LLSC_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(LLSC_APPID, item,llsc_UserAgent);
-            await delay(1000);
-        }
-        console.log('乐旅商城预约结束\n');
-        sendMessage.push('乐旅商城预约结束\n');
-    }
-
-    if (YLQX_COOKIE_ARR) {
-        console.log('驿路黔寻预约开始');
-        sendMessage.push('驿路黔寻预约开始');
-        for (let [index, item] of YLQX_COOKIE_ARR.split(SPLIT).entries()) {
-            console.log(`----第${index + 1}个号----`);
-            sendMessage.push(`----第${index + 1}个号----`);
-            await autoSubmit(YLQX_APPID, item,ylqx_UserAgent);
-            await delay(1000);
-        }
-        console.log('驿路黔寻预约结束\n');
-        sendMessage.push('驿路黔寻预约结束\n');
-    }
-    await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
+    
 }
 
 // prettier-ignore
