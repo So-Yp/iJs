@@ -55,7 +55,7 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
     if (isGetCookie = typeof $request !== `undefined`) {
         GetCookie();
     }else{
-        main();
+       await main();
     }
 })()
 .catch((e) => {
@@ -500,7 +500,7 @@ async function main() {
             sendMessage.push('驿路黔寻预约结束\n');
         }
     }
-    
+
 }
 
 // prettier-ignore
