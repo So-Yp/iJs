@@ -38,6 +38,7 @@ const SPLIT = "\n"; // 分割符（可自定义）
 const axios = require('axios');
 const crypto = require('crypto');
 const moment = require('moment');
+console.log('require',require);
 // const notify = require('./sendNotify');
 
 const XLTH_APPID = 'wxded2e7e6d60ac09d'; // 偲源惠购
@@ -55,12 +56,12 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 
 let sendMessage = [];
 !(async () => {
-    if ($request && typeof $request === 'object' && $request !== `undefined`) {
-        if ($request.method === 'OPTIONS') return false
-        GetCookie();
-    }else{
-       //await main();
-    }
+    // if ($request && typeof $request === 'object' && $request !== `undefined`) {
+    //     if ($request.method === 'OPTIONS') return false
+    //     GetCookie();
+    // }else{
+       await main();
+    // }
     
 })()
 .catch((e) => {
@@ -373,6 +374,7 @@ async function autoSubmit(appId, token, userAgent) {
 
 async function main() {
     try {
+        console.log('偲源惠购预约开始');
         //配置项
         var XLTH = JSON.parse($.getdata('xlth_cookies') || '{}') // 抓包参数
         if (JSON.stringify(XLTH) !== '{}'){
@@ -513,7 +515,7 @@ async function main() {
                 sendMessage.push('驿路黔寻预约结束\n');
             }
         }
-        await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
+        // await notify.sendNotify(`葫芦娃预约`, sendMessage.join('\n'), {}, '\n\n本通知');
     } catch (error) {
         $.log('', `❌ ${$.name}, 出错了，原因: ${error}!`, '');
     }
