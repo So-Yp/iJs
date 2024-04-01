@@ -57,12 +57,12 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 
 let sendMessage = [];
 !(async () => {
-    // if ($request && typeof $request === 'object' && $request !== `undefined`) {
-    //     if ($request.method === 'OPTIONS') return false
-    //     GetCookie();
-    // }else{
+    if ($request && typeof $request === 'object' && $request !== `undefined`) {
+        if ($request.method === 'OPTIONS') return false
+        GetCookie();
+    }else{
        await main();
-    // }
+    }
     
 })()
 .catch((e) => {
