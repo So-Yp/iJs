@@ -35,10 +35,11 @@ var Message = '' // 消息内容
 
 
 const SPLIT = "\n"; // 分割符（可自定义）
+console.log('require未注入',require);
 const axios = require('axios');
 const crypto = require('crypto');
 const moment = require('moment');
-console.log('require',require);
+console.log('require已注入',require);
 // const notify = require('./sendNotify');
 
 const XLTH_APPID = 'wxded2e7e6d60ac09d'; // 偲源惠购
