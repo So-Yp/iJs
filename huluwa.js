@@ -1,9 +1,9 @@
-/**
- 葫芦娃预约 v2.0
- cron: 30 8 * * *
-
+/*
+ * 脚本名称：葫芦娃
+ * 更新时间：2024-04-01
+ * 定时任务：17 9 * * *
+ * 脚本说明：自动申购茅台酒，兼容 Node.js 和手机 NE 环境执行。
  自行抓包把token(一般在请求头里)填到变量中, 多账号用换行隔开（可自定义）
-
  环境变量 XLTH_COOKIE 偲源惠购
  环境变量 GLYP_COOKIE 贵旅优品
  环境变量 KGLG_COOKIE 空港乐购
@@ -12,17 +12,18 @@
  环境变量 GYQP_COOKIE 贵盐黔品
  环境变量 LLSC_COOKIE 乐旅商城
  环境变量 YLQX_COOKIE 驿路黔寻
-###详细见同目录README
-```Quantumult X
+
+-------------- Quantumult X 配置 --------------
 [mitm]
 hostname = gw.huiqunchina.com
 
 [rewrite_local]
 https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
- */
-const $ = new Env('');
-//  const notify = $.isNode() ? require('./sendNotify') : '';
+*/
+
+const $ = new Env('葫芦娃');
+const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var xlth_UserAgent =''
 var glyp_UserAgent =''
@@ -33,9 +34,6 @@ var gyqp_UserAgent =''
 var llsc_UserAgent =''
 var ylqx_UserAgent ='' 
 var Message = '' // 消息内容
-// -----------------------------------------------------------------------------------------
-
-
 const SPLIT = "\n"; // 分割符（可自定义）
 // const axios = require('axios');
 // const crypto = require('crypto');
@@ -49,19 +47,15 @@ const ZHCS_APPID = 'wx624149b74233c99a'; // 遵航出山
 const GYQP_APPID = 'wx5508e31ffe9366b8'; // 贵盐黔品
 const LLSC_APPID = 'wx821fb4d8604ed4d6'; // 乐旅商城
 const YLQX_APPID = 'wxee0ce83ab4b26f9c'; // 驿路黔寻
-
 const HOST = 'https://gw.huiqunchina.com';
 const AK = '00670fb03584fbf44dd6b136e534f495';
 const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 
-let sendMessage = [];
-
 !(async () => {
-    if ($request && typeof $request === 'object' && $request !== `undefined`) {
-        if ($request.method === 'OPTIONS') return false
+    if (isGetCookie = typeof $request !== `undefined`) {
         GetCookie();
     }else{
-       //main();
+        main();
     }
 })()
 .catch((e) => {
@@ -71,10 +65,9 @@ let sendMessage = [];
     .finally(() => {
         const notify = async (msg) => $.msg($.name, '', msg)
         notify(Message)
-        $.done();
- });
- function GetCookie(){
-   
+    });
+
+function GetCookie() {
     var accessToken = $request.headers['X-access-token'];
     var currentDate=new Date();
     var currentTime=currentDate.getTime();
@@ -133,7 +126,7 @@ let sendMessage = [];
                 break;
         }
         return false
- }
+}
 function setdata(headers,accessToken,userAgent,cookie,name) {
     console.log(`获取到请求头${JSON.stringify({ accessToken,userAgent,})}\n`);
     var COOKIE=''
@@ -369,8 +362,8 @@ async function autoSubmit(appId, token, userAgent) {
         sendMessage.push(`运行异常[${err.message}]`);
     }
 }
-
 async function main() {
+    console.log(`开始运行主函数`);
     var XLTH = JSON.parse($.getdata("xlth_cookies") || "{}") // 抓包参数
     if (JSON.stringify(XLTH) !== '{}'){
         const XLTH_COOKIE_ARR = XLTH.accessToken // 偲源惠购
@@ -881,5 +874,3 @@ function Env(t, e) {
         }
     }(t, e)
 }
-
-
