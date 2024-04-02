@@ -21,6 +21,18 @@ hostname = gw.huiqunchina.com
 https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
 */
+if (typeof process === 'object') {
+    if (process.env.DENO) {
+        console.log('Deno 环境')
+      // Deno 环境
+    } else {
+        console.log('Node.js 环境')
+      // 
+    } 
+  } else {
+    console.log('浏览器或Bun环境')
+    // 浏览器或Bun环境
+  }
 
 const $ = new Env('');
 //const notify = $.isNode() ? require('./sendNotify') : '';
