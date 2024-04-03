@@ -189,7 +189,8 @@ function calculateSignature(method, url, ak, sk, date) {
 }
 
 function buildHeader(method, url, body,userAgent) {
-    const date = moment().utc().format('ddd, DD MMM YYYY HH:mm:ss [GMT]');
+    //const date = moment.utc().format('ddd, DD MMM YYYY HH:mm:ss [GMT]');
+    const date = new Date().toUTCString();
     const signature = calculateSignature(method, url, AK, SK, date);
     const digest = calculateDigest(body, SK);
     const headers = {
