@@ -14,7 +14,6 @@ https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script
 
 */
 const $ = new Env('');
-
 const crypto = $.isNode() ? require('crypto') : '';
 //const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
@@ -53,11 +52,11 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
 })()
 .catch((e) => {
         $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
-        Message += `❌ 失败! 原因: ${e}!`
+        Message += `❌ 失败! 原因: ${e}!`;
     })
     .finally(() => {
-        const notify = async (msg) => $.msg($.name, '', msg)
-        notify(Message)
+        const notify = async (msg) => $.msg($.name, '', msg);
+        notify(Message);
         $.done();
     });
 
