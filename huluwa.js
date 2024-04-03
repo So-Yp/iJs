@@ -69,7 +69,6 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
     }else{
        await main();
     }
-    return false
 })()
 .catch((e) => {
         $.log('', `❌ ${$.name}, 出错了，原因: ${e}!`, '');
@@ -78,6 +77,7 @@ const SK = '0d65f24dbe2bc1ede3c3ceeb96ef71bb';
     .finally(() => {
         const notify = async (msg) => $.msg($.name, '', msg)
         notify(Message)
+        $.done();
     });
 
 function GetCookie() {
