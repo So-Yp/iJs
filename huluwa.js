@@ -377,6 +377,7 @@ async function autoSubmit(appId, token, userAgent) {
 }
 async function main() {
     console.log(`开始运行主函数`);
+    console.log($.getdata('xlth_cookies'));
     var jsonString = $.getdata('xlth_cookies') || '{}';
     var XLTH = JSON.parse(jsonString) // 抓包参数
     if (JSON.stringify(XLTH) !== '{}'){
@@ -395,6 +396,7 @@ async function main() {
             sendMessage.push('偲源惠购预约结束\n');
         } 
     }
+    console.log($.getdata('glyp_cookies'));
     var jsonString = $.getdata('glyp_cookies') || '{}';
     var GLYP = JSON.parse(jsonString) 
     if (JSON.stringify(GLYP) !== '{}'){
@@ -413,6 +415,7 @@ async function main() {
             sendMessage.push('贵旅优品预约结束\n');
         }
     }
+    console.log($.getdata('kglg_cookies'));
     var jsonString = $.getdata('kglg_cookies') || '{}';
     var KGLG = JSON.parse(jsonString) 
     if (JSON.stringify(KGLG) !== '{}'){
