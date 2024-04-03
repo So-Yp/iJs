@@ -155,7 +155,7 @@ function delay(time) {
 }
 
 function calculateDigest(body, sk) {
-    const hmac = crypto._createHmacHelper('sha256', sk);
+    const hmac = crypto.createHmac('sha256', sk);
     hmac.update(body);
     const signature = hmac.digest('base64');
     return signature;
@@ -164,7 +164,7 @@ function calculateDigest(body, sk) {
 function calculateSignature(method, url, ak, sk, date) {
     const strToSign = `${method.toUpperCase()}\n${url}\n\n${ak}\n${date}\n`;
    
-    const hmac = crypto._createHmacHelper('sha256', sk);
+    const hmac = crypto.createHmac('sha256', sk);
     hmac.update(strToSign);
     const signature = hmac.digest('base64');
     return signature;
