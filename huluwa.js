@@ -4,15 +4,7 @@
  * 定时任务：17 9 * * *
  * 脚本说明：自动申购茅台酒，兼容 Node.js 和手机 NE 环境执行。
  自行抓包把token(一般在请求头里)填到变量中, 多账号用换行隔开（可自定义）
- 环境变量 XLTH_COOKIE 偲源惠购
- 环境变量 GLYP_COOKIE 贵旅优品
- 环境变量 KGLG_COOKIE 空港乐购
- 环境变量 HLQG_COOKIE 航旅黔购
- 环境变量 ZHCS_COOKIE 遵行出山
- 环境变量 GYQP_COOKIE 贵盐黔品
- 环境变量 LLSC_COOKIE 乐旅商城
- 环境变量 YLQX_COOKIE 驿路黔寻
-
+ 
 -------------- Quantumult X 配置 --------------
 [mitm]
 hostname = gw.huiqunchina.com
@@ -21,21 +13,9 @@ hostname = gw.huiqunchina.com
 https://gw.huiqunchina.com/front-manager/api/customer/queryById/token url script-response-header https://raw.githubusercontent.com/So-Yp/iJs/main/huluwa.js
 
 */
-if (typeof process === 'object') {
-    if (process.env.DENO) {
-        console.log('Deno 环境')
-      // Deno 环境
-    } else {
-        console.log('Node.js 环境')
-      //Node.js 环境 
-    } 
-  } else {
-    console.log('浏览器或Bun环境')
-    // 浏览器或Bun环境
-  }
-
 const $ = new Env('');
-var crypto = loadCryptoJS()
+
+const crypto = $.isNode() ? require('crypto') : '';
 //const notify = $.isNode() ? require('./sendNotify') : '';
 // 配置项
 var xlth_UserAgent =''
